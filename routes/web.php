@@ -15,7 +15,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 Auth::routes();
 // Auth::routes(['register' => false]);
 
-Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/dashboard', 'DashboardController@dashboard')->name('dashboard');
+Route::get('/form', 'FormsController@gen_form');
+Route::get('/validate-form', 'FormsController@validate_form');
