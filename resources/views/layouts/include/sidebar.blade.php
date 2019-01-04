@@ -5,7 +5,7 @@
   <ul class="nav side-menu">
     <li><a><i class="fa fa-home"></i> Home <span class="fa fa-chevron-down"></span></a>
       <ul class="nav child_menu" style="display: none">
-        <li><a href="{{url('dashboard')}}">Dashboard</a>
+        <li><a href="/dashboard">Dashboard</a>
         </li>
         <!-- <li><a href="#">Dashboard2</a>
         </li>
@@ -13,49 +13,35 @@
         </li> -->
       </ul>
     </li>
-    <li><a><i class="fa fa-edit"></i> Forms <span class="fa fa-chevron-down"></span></a>
+    <li><a><i class="fa fa-edit"></i> Admins <span class="fa fa-chevron-down"></span></a>
       <ul class="nav child_menu" style="display: none">
-        <li><a href="{{url('form')}}">General Form</a>
+        @if(Auth::user()->role == 1)
+        <li><a href="/admins/create">Create Admin</a>
         </li>
-        <!-- <li><a href="form_advanced.html">Advanced Components</a>
-        </li> -->
-        <li><a href="{{url('validate-form')}}">Form Validation</a>
-        </li>
-        <!-- <li><a href="form_wizards.html">Form Wizard</a>
-        </li>
-        <li><a href="form_upload.html">Form Upload</a>
-        </li>
-        <li><a href="form_buttons.html">Form Buttons</a>
-        </li> -->
-      </ul>
-    </li>
-    <li><a><i class="fa fa-desktop"></i> UI Elements <span class="fa fa-chevron-down"></span></a>
-      <ul class="nav child_menu" style="display: none">
-        <!-- <li><a href="general_elements.html">General Elements</a>
-        </li>
-        <li><a href="media_gallery.html">Media Gallery</a>
-        </li>
-        <li><a href="typography.html">Typography</a>
-        </li>
-        <li><a href="icons.html">Icons</a>
-        </li>
-        <li><a href="glyphicons.html">Glyphicons</a>
-        </li>
-        <li><a href="widgets.html">Widgets</a>
-        </li>
-        <li><a href="invoice.html">Invoice</a>
-        </li> -->
-        <li><a href="#">Inbox</a>
-        </li>
-        <li><a href="#">Calender</a>
+        @endif
+        <li><a href="/admins">List of Admin</a>
         </li>
       </ul>
     </li>
-    <li><a><i class="fa fa-table"></i> Tables <span class="fa fa-chevron-down"></span></a>
+    <li><a><i class="fa fa-desktop"></i> Users <span class="fa fa-chevron-down"></span></a>
       <ul class="nav child_menu" style="display: none">
-        <li><a href="#">Tables</a>
+        <li><a href="/users/create">Create User</a>
         </li>
-        <li><a href="#">Table Dynamic</a>
+        <li><a href="/users">List of Users</a>
+        </li>
+      </ul>
+    </li>
+    <li><a><i class="fa fa-table"></i> Applications <span class="fa fa-chevron-down"></span></a>
+      <ul class="nav child_menu" style="display: none">
+        <li><a href="/applications/create">Create New</a>
+        </li>
+        <li><a href="/applications">All</a>
+        </li>
+        <li><a href="/applications-processed">Processed</a>
+        </li>
+        <li><a href="/applications-unprocessed">Unprocessed</a>
+        </li>
+        <li><a href="/applications-rejected">Rejected</a>
         </li>
       </ul>
     </li>

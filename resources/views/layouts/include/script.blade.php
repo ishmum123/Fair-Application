@@ -1,32 +1,32 @@
-<script src="js/bootstrap.min.js"></script>
-
+<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+{{ asset('') }}
 <!-- gauge js -->
-<script type="text/javascript" src="js/gauge/gauge.min.js"></script>
-<script type="text/javascript" src="js/gauge/gauge_demo.js"></script>
+<script type="text/javascript" src="{{ asset('js/gauge/gauge.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/gauge/gauge_demo.js') }}"></script>
 <!-- bootstrap progress js -->
-<script src="js/progressbar/bootstrap-progressbar.min.js"></script>
-<script src="js/nicescroll/jquery.nicescroll.min.js"></script>
+<script src="{{ asset('js/progressbar/bootstrap-progressbar.min.js') }}"></script>
+<script src="{{ asset('js/nicescroll/jquery.nicescroll.min.js') }}"></script>
 <!-- icheck -->
-<script src="js/icheck/icheck.min.js"></script>
+<script src="{{ asset('js/icheck/icheck.min.js') }}"></script>
 <!-- daterangepicker -->
-<script type="text/javascript" src="js/moment/moment.min.js"></script>
-<script type="text/javascript" src="js/datepicker/daterangepicker.js"></script>
+<script type="text/javascript" src="{{ asset('js/moment/moment.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/datepicker/daterangepicker.js') }}"></script>
 <!-- chart js -->
-<script src="js/chartjs/chart.min.js"></script>
+<script src="{{ asset('') }}js/chartjs/chart.min.js"></script>
 
-<script src="js/custom.js"></script>
+<script src="{{ asset('') }}js/custom.js"></script>
 
 <!-- flot js -->
 <!--[if lte IE 8]><script type="text/javascript" src="js/excanvas.min.js"></script><![endif]-->
-<script type="text/javascript" src="js/flot/jquery.flot.js"></script>
-<script type="text/javascript" src="js/flot/jquery.flot.pie.js"></script>
-<script type="text/javascript" src="js/flot/jquery.flot.orderBars.js"></script>
-<script type="text/javascript" src="js/flot/jquery.flot.time.min.js"></script>
-<script type="text/javascript" src="js/flot/date.js"></script>
-<script type="text/javascript" src="js/flot/jquery.flot.spline.js"></script>
-<script type="text/javascript" src="js/flot/jquery.flot.stack.js"></script>
-<script type="text/javascript" src="js/flot/curvedLines.js"></script>
-<script type="text/javascript" src="js/flot/jquery.flot.resize.js"></script>
+<script type="text/javascript" src="{{ asset('js/flot/jquery.flot.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/flot/jquery.flot.pie.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/flot/jquery.flot.orderBars.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/flot/jquery.flot.time.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/flot/date.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/flot/jquery.flot.spline.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/flot/jquery.flot.stack.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/flot/curvedLines.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/flot/jquery.flot.resize.js') }}"></script>
 <script>
   $(document).ready(function() {
     // [17, 74, 6, 39, 20, 85, 7]
@@ -105,10 +105,11 @@
 </script>
 
 <!-- worldmap -->
-<script type="text/javascript" src="js/maps/jquery-jvectormap-2.0.3.min.js"></script>
-<script type="text/javascript" src="js/maps/gdp-data.js"></script>
-<script type="text/javascript" src="js/maps/jquery-jvectormap-world-mill-en.js"></script>
-<script type="text/javascript" src="js/maps/jquery-jvectormap-us-aea-en.js"></script>
+
+<script type="text/javascript" src="{{ asset('js/maps/jquery-jvectormap-2.0.3.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/maps/gdp-data.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/maps/jquery-jvectormap-world-mill-en.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/maps/jquery-jvectormap-us-aea-en.js') }}"></script>
 <!-- pace -->
 <script src="js/pace/pace.min.js"></script>
 <script>

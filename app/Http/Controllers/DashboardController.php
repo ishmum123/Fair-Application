@@ -10,6 +10,6 @@ class DashboardController extends Controller
         $this->middleware('auth');
     }
     public function dashboard(){
-        return view('dashboard');
+        return view('home.dashboard');
     }
 }
