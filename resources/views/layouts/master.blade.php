@@ -18,7 +18,7 @@
         <div class="left_col scroll-view">
 
           <div class="navbar nav_title" style="border: 0;">
-            <a href="/dashboard" class="site_title"><i class="fa fa-paw"></i> <span>Gentellela Alela!</span></a>
+            <a href="/dashboard" class="site_title"><i class="fa fa-paw"></i> <span>মেলা</span></a>
           </div>
           <div class="clearfix"></div>
 

@@ -1,5 +1,12 @@
+{{--my Added--}}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+{{--my Added--}}
+
 <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-{{ asset('') }}
+
 <!-- gauge js -->
 <script type="text/javascript" src="{{ asset('js/gauge/gauge.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/gauge/gauge_demo.js') }}"></script>
@@ -12,12 +19,12 @@
 <script type="text/javascript" src="{{ asset('js/moment/moment.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/datepicker/daterangepicker.js') }}"></script>
 <!-- chart js -->
-<script src="{{ asset('') }}js/chartjs/chart.min.js"></script>
+<script src="{{ asset('js/chartjs/chart.min.js') }}"></script>
 
-<script src="{{ asset('') }}js/custom.js"></script>
+<script src="{{ asset('js/custom.js') }}"></script>
 
 <!-- flot js -->
-<!--[if lte IE 8]><script type="text/javascript" src="js/excanvas.min.js"></script><![endif]-->
+<!--[if lte IE 8]><script type="text/javascript" src="{{ asset('js/excanvas.min.js')}}"></script><![endif]-->
 <script type="text/javascript" src="{{ asset('js/flot/jquery.flot.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/flot/jquery.flot.pie.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/flot/jquery.flot.orderBars.js') }}"></script>
@@ -102,6 +109,8 @@
       return new Date(year, month - 1, day).getTime();
     }
   });
+
+
 </script>
 
 <!-- worldmap -->
@@ -111,7 +120,7 @@
 <script type="text/javascript" src="{{ asset('js/maps/jquery-jvectormap-world-mill-en.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/maps/jquery-jvectormap-us-aea-en.js') }}"></script>
 <!-- pace -->
-<script src="js/pace/pace.min.js"></script>
+<script src="{{ asset('js/pace/pace.min.js') }}"></script>
 <script>
   $(function() {
     $('#world-map-gdp').vectorMap({
@@ -132,7 +141,7 @@
   });
 </script>
 <!-- skycons -->
-<script src="js/skycons/skycons.min.js"></script>
+<script src="{{ asset('js/skycons/skycons.min.js') }}"></script>
 <script>
   var icons = new Skycons({
       "color": "#73879C"
@@ -193,7 +202,116 @@
 <!-- /dashbord linegraph -->
 <!-- datepicker -->
 <script type="text/javascript">
+    $(document).ready(function() {
+
+        var cb = function(start, end, label) {
+            console.log(start.toISOString(), end.toISOString(), label);
+            $('#reportrange_right span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            //alert("Callback has fired: [" + start.format('MMMM D, YYYY') + " to " + end.format('MMMM D, YYYY') + ", label = " + label + "]");
+        }
+
+        var optionSet1 = {
+            startDate: moment().subtract(29, 'days'),
+            endDate: moment(),
+            minDate: '01/01/2019',
+            maxDate: '12/31/2030',
+            dateLimit: {
+                days: 60
+            },
+            showDropdowns: true,
+            showWeekNumbers: true,
+            timePicker: false,
+            timePickerIncrement: 1,
+            timePicker12Hour: true,
+            ranges: {
+                'Today': [moment(), moment()],
+                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                'This Month': [moment().startOf('month'), moment().endOf('month')],
+                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+            },
+            opens: 'right',
+            buttonClasses: ['btn btn-default'],
+            applyClass: 'btn-small btn-primary',
+            cancelClass: 'btn-small',
+            format: 'MM/DD/YYYY',
+            separator: ' to ',
+            locale: {
+                applyLabel: 'Submit',
+                cancelLabel: 'Clear',
+                fromLabel: 'From',
+                toLabel: 'To',
+                customRangeLabel: 'Custom',
+                daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+                monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                firstDay: 1
+            }
+        };
+
+        $('#reportrange_right span').html(moment().subtract(29, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
+
+        $('#reportrange_right').daterangepicker(optionSet1, cb);
+
+        $('#reportrange_right').on('show.daterangepicker', function() {
+            console.log("show event fired");
+        });
+        $('#reportrange_right').on('hide.daterangepicker', function() {
+            console.log("hide event fired");
+        });
+        $('#reportrange_right').on('apply.daterangepicker', function(ev, picker) {
+            console.log("apply event fired, start/end dates are " + picker.startDate.format('MMMM D, YYYY') + " to " + picker.endDate.format('MMMM D, YYYY'));
+        });
+        $('#reportrange_right').on('cancel.daterangepicker', function(ev, picker) {
+            console.log("cancel event fired");
+        });
+
+        $('#options1').click(function() {
+            $('#reportrange_right').data('daterangepicker').setOptions(optionSet1, cb);
+        });
+
+        $('#options2').click(function() {
+            $('#reportrange_right').data('daterangepicker').setOptions(optionSet2, cb);
+        });
+
+        $('#destroy').click(function() {
+            $('#reportrange_right').data('daterangepicker').remove();
+        });
+
+    });
+</script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#single_cal1').daterangepicker({
+            singleDatePicker: true,
+            calender_style: "picker_1"
+        }, function(start, end, label) {
+            console.log(start.toISOString(), end.toISOString(), label);
+        });
+        $('#single_cal2').daterangepicker({
+            singleDatePicker: true,
+            calender_style: "picker_2"
+        }, function(start, end, label) {
+            console.log(start.toISOString(), end.toISOString(), label);
+        });
+        $('#single_cal3').daterangepicker({
+            singleDatePicker: true,
+            calender_style: "picker_3"
+        }, function(start, end, label) {
+            console.log(start.toISOString(), end.toISOString(), label);
+        });
+        $('#single_cal4').daterangepicker({
+            singleDatePicker: true,
+            calender_style: "picker_4"
+        }, function(start, end, label) {
+            console.log(start.toISOString(), end.toISOString(), label);
+        });
+    });
+</script>
+<script type="text/javascript">
   $(document).ready(function() {
+
+
 
     var cb = function(start, end, label) {
       console.log(start.toISOString(), end.toISOString(), label);
@@ -262,8 +380,73 @@
     $('#destroy').click(function() {
       $('#reportrange').data('daterangepicker').remove();
     });
+
+
   });
 </script>
 <script>
   NProgress.done();
 </script>
+
+
+{{--my Added--}}
+
+<script>
+    $( function() {
+        var dateFormat = "yy-mm-dd",
+            from = $( "#from" )
+                .datepicker({
+                    defaultDate: "+1w",
+                    changeMonth: true,
+                    numberOfMonths: 3
+                })
+                .on( "change", function() {
+                    to.datepicker( "option", "minDate", getDate( this ) );
+                }),
+            to = $( "#to" ).datepicker({
+                defaultDate: "+1w",
+                changeMonth: true,
+                numberOfMonths: 3
+            })
+                .on( "change", function() {
+                    from.datepicker( "option", "maxDate", getDate( this ) );
+                });
+
+        function getDate( element ) {
+            var date;
+            try {
+                date = $.datepicker.parseDate( dateFormat, element.value );
+            } catch( error ) {
+                date = null;
+            }
+
+            return date;
+        }
+    } );
+
+    $( function() {
+        $( "#date" ).datepicker();
+    } );
+
+
+    function validateForm() {
+        var u = document.forms["myform"]["user"].value;
+        var id = true;
+        if(u == "default"){
+            document.getElementById("uu").innerHTML = "Select an user";
+            id = false;
+        }
+        var x = document.forms["myform"]["applicant_telephone"].value;
+        var y = document.forms["myform"]["applicant_mobile"].value;
+        if (x == "" && y == "") {
+            document.getElementById("hint").innerHTML = "Phone number or Telephone number must be filled up";
+            id = false;
+        }
+
+        return id;
+    }
+</script>
+
+{{--my Added--}}
+
+

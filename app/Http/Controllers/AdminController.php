@@ -44,6 +44,7 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
+
         $valid_attributes = request()->validate([
             'name' => 'required',
             'email' =>'required',
@@ -68,9 +69,9 @@ class AdminController extends Controller
      * @param  \App\Admin  $admin
      * @return \Illuminate\Http\Response
      */
-    public function show(Admin $admin)
+    public function show(User $admin)
     {
-        //
+        return view('admin.show', compact('admin'));
     }
 
     /**
@@ -81,7 +82,7 @@ class AdminController extends Controller
      */
     public function edit(Admin $admin)
     {
-        //
+        return "edit";
     }
 
     /**

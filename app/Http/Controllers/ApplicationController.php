@@ -18,8 +18,9 @@ class ApplicationController extends Controller
     public function index()
     {
 
-        if(Auth::user()->role > 2) $applications = Application::all()->where('user_id',Auth::user()->id);
-        else $applications = Application::all();
+        if(Auth::user()->role > 2) $applications = Application::all()->where('user_id',Auth::user()->id)->sortBy('status');
+        else $applications = Application::all()->sortBy('status');
+
 
         return view('application.index', compact('applications'));
     }
@@ -55,7 +56,7 @@ class ApplicationController extends Controller
     public function create()
     {
         if( Auth::user()->role < 3 ){
-            $applicants = User::all();
+            $applicants = User::all()->where('role',3);
         }
         else $applicants = [];
         return view('application.create',compact('applicants'));
@@ -70,24 +71,81 @@ class ApplicationController extends Controller
     public function store(Request $request)
     {
 
-        if($request->hasFile('attachment')){
-            $path = $request->file('attachment')->store('new2');
 
-        }
-        else $path = '';
+        $valid = request()->validate([
+            'festival_name' => 'required',
+            'festival_type' => 'required',
+            'from' => 'required',
+            'to' => 'required',
+            'festival_place' => 'required',
+            'festival_place_attach' => 'mimes:jpeg,jpg,png,gif|required',
+            'applicant_name' => 'required',
+            'applicant_address' => 'required',
+            'applicant_telephone' => 'required_without:applicant_mobile',
+            'applicant_mobile' => 'required_without:applicant_telephone',
+            'applicant_email' => 'required|email',
+            'reg_no' => 'required',
+            'reg_no_attach' => 'mimes:jpeg,jpg,png,gif|required',
+            'tin_no' => 'required',
+            'tin_no_attach' => 'mimes:jpeg,jpg,png,gif|required',
+            'vat_reg_no' => 'required',
+            'vat_reg_no_attach' => 'mimes:jpeg,jpg,png,gif|required',
+            'chaalan_no' => 'required',
+            'date' => 'required',
+            'bank_name' => 'required',
+            'branch_name' => 'required',
+            'fee_type' => 'required'
+
+        ]);
+
+        $valid['from'] = date('Y-m-d',strtotime($valid['from']) );
+        $valid['to'] = date('Y-m-d',strtotime($valid['to']) );
+        $valid['date'] = date('Y-m-d',strtotime($valid['date']) );
+
+        if($valid['fee_type'] == 'international_fee') $valid['fee_type'] = 1;
+        else $valid['fee_type'] = 0;
+
+        if($valid['festival_type'] == 'international') $valid['festival_type'] = 1;
+        else $valid['festival_type'] = 0;
+
+        $valid['festival_place_attach'] = $request->file('festival_place_attach')->store('applications_files');
+        $valid['reg_no_attach'] = $request->file('reg_no_attach')->store('applications_files');
+        $valid['tin_no_attach'] = $request->file('tin_no_attach')->store('applications_files');
+        $valid['vat_reg_no_attach'] = $request->file('vat_reg_no_attach')->store('applications_files');
 
 
-        $temp = new Application();
+
+        $application = new Application();
         if($request->has('user')){
-            $temp->user_id = $request['user'];
+            $application->user_id = $request['user'];
         }
-        else $temp->user_id = Auth::user()->id;
+        else $application->user_id = Auth::user()->id;
 
-        $temp->title = $request['title'];
-        $temp->body = $request['body'];
-        $temp->attachment = $path;
-        $temp->status = 0;
-        $temp->save();
+        $application->festival_name = $valid['festival_name'];
+        $application->festival_type = $valid['festival_type'];
+        $application->from = $valid['from'];
+        $application->to = $valid['to'];
+        $application->festival_place = $valid['festival_place'];
+        $application->festival_place_attach = $valid['festival_place_attach'];
+        $application->applicant_name = $valid['applicant_name'];
+        $application->applicant_address = $valid['applicant_address'];
+        $application->applicant_telephone = $valid['applicant_telephone'];
+        $application->applicant_mobile = $valid['applicant_mobile'];
+        $application->applicant_email = $valid['applicant_email'];
+        $application->reg_no = $valid['reg_no'];
+        $application->reg_no_attach = $valid['reg_no_attach'];
+        $application->tin_no = $valid['tin_no'];
+        $application->tin_no_attach = $valid['tin_no_attach'];
+        $application->vat_reg_no = $valid['vat_reg_no'];
+        $application->vat_reg_no_attach = $valid['vat_reg_no_attach'];
+        $application->chaalan_no = $valid['chaalan_no'];
+        $application->date = $valid['date'];
+        $application->bank_name = $valid['bank_name'];
+        $application->branch_name = $valid['branch_name'];
+        $application->fee_type = $valid['fee_type'];
+        $application->status = 0;
+
+        $application->save();
 
         return redirect('/applications');
 
@@ -102,7 +160,7 @@ class ApplicationController extends Controller
      */
     public function show(Application $application)
     {
-        return "I am here";
+        return view('application.show', compact('application'));
     }
 
     /**
@@ -127,11 +185,15 @@ class ApplicationController extends Controller
     {
 
         if($request->has('process')){
-            $application->update(['status'=>1]);
+            $application->status = 1;
+            $application->save();
         }
         if($request->has('reject')){
-            $application->update(['status'=>2]);
+
+            $application->status = 2;
+            $application->save();
         }
+
         return back();
     }
 
