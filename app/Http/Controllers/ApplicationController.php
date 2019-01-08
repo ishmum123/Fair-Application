@@ -10,6 +10,13 @@ use App\User;
 
 class ApplicationController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('checkSuper', ['only' => ['update']]);
+        $this->middleware('checkAdmin', ['only' => ['update']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -31,21 +38,21 @@ class ApplicationController extends Controller
         if(Auth::user()->role > 2) $applications = Application::all()->where( 'user_id', Auth::user()->id)
                                                                     ->where('status', 1);
         else $applications = Application::all()->where('status', 1);
-        return view('application.index', compact('applications'));
+        return view('application.process', compact('applications'));
     }
 
     public function unprocessed(){
         if(Auth::user()->role > 2) $applications = Application::all()->where( 'user_id', Auth::user()->id)
             ->where('status', 0);
         else $applications = Application::all()->where('status', 0);
-        return view('application.index', compact('applications'));
+        return view('application.unprocess', compact('applications'));
     }
 
     public function rejected(){
         if(Auth::user()->role > 2) $applications = Application::all()->where( 'user_id', Auth::user()->id)
             ->where('status', 2);
         else $applications = Application::all()->where('status', 2);
-        return view('application.index', compact('applications'));
+        return view('application.reject', compact('applications'));
     }
 
     /**

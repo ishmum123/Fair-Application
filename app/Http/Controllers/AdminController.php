@@ -11,7 +11,7 @@ class AdminController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('checkSuper', ['only' => ['create']]);
+        $this->middleware('checkSuper');
     }
     /**
      * Display a listing of the resource.
@@ -82,7 +82,7 @@ class AdminController extends Controller
      */
     public function edit(Admin $admin)
     {
-        return "edit";
+
     }
 
     /**

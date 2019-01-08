@@ -20,17 +20,17 @@
 
 
 Auth::routes();
-Route::get('/home', 'HomeController@index')->name('home');
+
 Route::get('/dashboard', 'DashboardController@dashboard')->name('dashboard');
 Route::resource('infos','InfoController');
 Route::resource('admins', 'AdminController');
-Route::resource('users','UsersController')->middleware('auth');
-Route::resource('applications', 'ApplicationController')->middleware('auth');
+Route::resource('users','UsersController');
+Route::resource('applications', 'ApplicationController');
 Route::get('applications-processed', 'ApplicationController@processed');
-Route::get('/applications-unprocessed', 'ApplicationController@unprocessed')->middleware('auth');
-Route::get('/applications-rejected', 'ApplicationController@rejected')->middleware('auth');
+Route::get('/applications-unprocessed', 'ApplicationController@unprocessed');
+Route::get('/applications-rejected', 'ApplicationController@rejected');
 Route::get('/', function () {
-    return view('home.welcome');
-});
+    return view('auth.login');
+})->middleware('guest');
 
 

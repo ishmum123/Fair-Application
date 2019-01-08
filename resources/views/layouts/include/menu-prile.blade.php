@@ -1,6 +1,6 @@
 <div class="profile">
     <div class="profile_pic">
-        <img src="{{ asset('images/img.jpg') }}" alt="..." class="img-circle profile_img">
+        <img src="{{ asset('images/img.png') }}" alt="..." class="img-circle profile_img">
     </div>
     <div class="profile_info">
         <span>Welcome,</span>
