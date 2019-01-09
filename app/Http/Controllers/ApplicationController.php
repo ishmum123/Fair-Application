@@ -66,7 +66,7 @@ class ApplicationController extends Controller
             $applicants = User::all()->where('role',3);
         }
         else $applicants = [];
-        return view('application.create',compact('applicants'));
+        return view('application.create1',compact('applicants'));
     }
 
     /**
@@ -85,18 +85,18 @@ class ApplicationController extends Controller
             'from' => 'required',
             'to' => 'required',
             'festival_place' => 'required',
-            'festival_place_attach' => 'mimes:jpeg,jpg,png,gif|required',
+            'festival_place_attach' => 'mimes:jpeg,jpg,png,gif|required|size:2000',
             'applicant_name' => 'required',
             'applicant_address' => 'required',
             'applicant_telephone' => 'required_without:applicant_mobile',
             'applicant_mobile' => 'required_without:applicant_telephone',
             'applicant_email' => 'required|email',
             'reg_no' => 'required',
-            'reg_no_attach' => 'mimes:jpeg,jpg,png,gif|required',
+            'reg_no_attach' => 'mimes:jpeg,jpg,png,gif|required|size:2000',
             'tin_no' => 'required',
-            'tin_no_attach' => 'mimes:jpeg,jpg,png,gif|required',
+            'tin_no_attach' => 'mimes:jpeg,jpg,png,gif|required|size:2000',
             'vat_reg_no' => 'required',
-            'vat_reg_no_attach' => 'mimes:jpeg,jpg,png,gif|required',
+            'vat_reg_no_attach' => 'mimes:jpeg,jpg,png,gif|required|size:2000',
             'chaalan_no' => 'required',
             'date' => 'required',
             'bank_name' => 'required',

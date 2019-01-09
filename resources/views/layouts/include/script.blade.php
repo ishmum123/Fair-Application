@@ -143,6 +143,18 @@
 <!-- skycons -->
 <script src="{{ asset('js/skycons/skycons.min.js') }}"></script>
 <script>
+  function downloadFile(path) { 
+    $.ajax({
+        url: path,
+        type: 'GET',
+        success: function(html) {
+          var newDiv = document.createElement("div"); 
+          var newContent = document.createTextNode("Hi there and greetings!"); 
+          newDiv.appendChild(newContent);
+        }
+    });
+  }
+
   var icons = new Skycons({
       "color": "#73879C"
     }),

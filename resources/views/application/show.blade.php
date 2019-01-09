@@ -70,7 +70,7 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">স্থান বরাদ্দপত্র সংযুক্ত
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <img src="/storage/{{$application->festival_place_attach}}" alt="">
+                                <img style="height: 200px;" src="/storage/{{$application->festival_place_attach}}" alt="">
                             </div>
 
                         </div>
@@ -132,8 +132,10 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">হালনাগাদ কপি সংযুক্ত
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <img src="/storage/{{$application->reg_no_attach}}" alt="">
+                                <img style="height: 200px;" src="/storage/{{$application->reg_no_attach}}" alt="">
+                                <a href="/storage/{{$application->reg_no_attach}}" download="হালনাগাদ কপি" class="btn btn-success" target="_blank">Download</a>
                             </div>
+
                         </div>
 
                         <div class="item form-group">
@@ -149,7 +151,7 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">হালনাগাদ কপি সংযুক্ত
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <img src="/storage/{{$application->tin_no_attach}}" alt="">
+                                <img style="height: 200px;" src="/storage/{{$application->tin_no_attach}}" alt="">
                             </div>
                         </div>
 
@@ -166,7 +168,7 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">হালনাগাদ কপি সংযুক্ত
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <img src="/storage/{{$application->vat_reg_no_attach}}" alt="">
+                                <img style="height: 200px;" src="/storage/{{$application->vat_reg_no_attach}}" alt="">
                             </div>
                         </div>
 
