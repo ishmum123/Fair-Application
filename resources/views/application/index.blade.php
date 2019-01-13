@@ -29,6 +29,7 @@
                             <td>{{ ++$count }}</td>
                             <td>
                                 {{ date('F d, Y', strtotime($application->created_at)) }}
+{{--                                {{ $application->created_at }}--}}
 
                             </td>
 
@@ -47,7 +48,7 @@
                             </td>
                             <td>
                                 @if($application->status == 0)
-                                    <span style="color:darkslategray">Created</span> on {{ date('F d, Y', strtotime($application->created_at) ) }}
+                                    <span style="color:darkgoldenrod">-</span>
                                 @elseif($application->status == 1)
                                     <span style="color:green">Processed</span> on {{ date('F d, Y', strtotime($application->updated_at) ) }}
                                 @else

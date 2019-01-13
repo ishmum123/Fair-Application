@@ -42,10 +42,11 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
+
         $valid_attributes = request()->validate([
-            'name' => 'required',
-            'email' =>'required',
-            'password' => 'required'
+            'name' => 'required|string|max:255',
+            'email' =>'required|string|max:255|email|unique:users',
+            'password' => 'required|string|min:6|confirmed'
 
         ]);
 

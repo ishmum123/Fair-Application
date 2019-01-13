@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\confirmation;
 use App\Models\Application;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\User;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class ApplicationController extends Controller
 {
@@ -25,8 +28,8 @@ class ApplicationController extends Controller
     public function index()
     {
 
-        if(Auth::user()->role > 2) $applications = Application::all()->where('user_id',Auth::user()->id)->sortBy('status');
-        else $applications = Application::all()->sortBy('status');
+        if(Auth::user()->role > 2) $applications = Application::all()->where('user_id',Auth::user()->id)->sortByDesc('created_at');
+        else $applications = Application::all()->sortByDesc('created_at');
 
 
         return view('application.index', compact('applications'));
@@ -36,22 +39,22 @@ class ApplicationController extends Controller
 
     public function processed(){
         if(Auth::user()->role > 2) $applications = Application::all()->where( 'user_id', Auth::user()->id)
-                                                                    ->where('status', 1);
-        else $applications = Application::all()->where('status', 1);
+                                                                    ->where('status', 1)->sortByDesc('updated_at');
+        else $applications = Application::all()->where('status', 1)->sortByDesc('updated_at');
         return view('application.process', compact('applications'));
     }
 
     public function unprocessed(){
         if(Auth::user()->role > 2) $applications = Application::all()->where( 'user_id', Auth::user()->id)
-            ->where('status', 0);
-        else $applications = Application::all()->where('status', 0);
+            ->where('status', 0)->sortByDesc('created_at');
+        else $applications = Application::all()->where('status', 0)->sortByDesc('created_at');
         return view('application.unprocess', compact('applications'));
     }
 
     public function rejected(){
         if(Auth::user()->role > 2) $applications = Application::all()->where( 'user_id', Auth::user()->id)
-            ->where('status', 2);
-        else $applications = Application::all()->where('status', 2);
+            ->where('status', 2)->sortByDesc('updated_at');
+        else $applications = Application::all()->where('status', 2)->sortByDesc('updated_at');
         return view('application.reject', compact('applications'));
     }
 
@@ -66,7 +69,7 @@ class ApplicationController extends Controller
             $applicants = User::all()->where('role',3);
         }
         else $applicants = [];
-        return view('application.create1',compact('applicants'));
+        return view('application.create',compact('applicants'));
     }
 
     /**
@@ -77,37 +80,51 @@ class ApplicationController extends Controller
      */
     public function store(Request $request)
     {
+        if(Auth::user()->role == 3){
+            $request['user'] = Auth::user()->id;
+        }
+        else{
+            if($request['user'] == 'default') $request['user'] = '';
+        }
 
+        $img_max_size = 'max:2048'; //max image size 1 MB
 
         $valid = request()->validate([
+            'user' => 'required',
             'festival_name' => 'required',
             'festival_type' => 'required',
-            'from' => 'required',
-            'to' => 'required',
+            'from-to' => 'required',
             'festival_place' => 'required',
-            'festival_place_attach' => 'mimes:jpeg,jpg,png,gif|required|size:2000',
             'applicant_name' => 'required',
             'applicant_address' => 'required',
             'applicant_telephone' => 'required_without:applicant_mobile',
             'applicant_mobile' => 'required_without:applicant_telephone',
             'applicant_email' => 'required|email',
             'reg_no' => 'required',
-            'reg_no_attach' => 'mimes:jpeg,jpg,png,gif|required|size:2000',
             'tin_no' => 'required',
-            'tin_no_attach' => 'mimes:jpeg,jpg,png,gif|required|size:2000',
             'vat_reg_no' => 'required',
-            'vat_reg_no_attach' => 'mimes:jpeg,jpg,png,gif|required|size:2000',
             'chaalan_no' => 'required',
             'date' => 'required',
             'bank_name' => 'required',
             'branch_name' => 'required',
-            'fee_type' => 'required'
+            'fee_type' => 'required',
+            'vat_reg_no_attach' => ['required','mimes:jpeg,jpg,png,gif',$img_max_size],
+            'tin_no_attach' => ['required','mimes:jpeg,jpg,png,gif',$img_max_size],
+            'reg_no_attach' => ['required','mimes:jpeg,jpg,png,gif',$img_max_size],
+            'festival_place_attach' => ['required','mimes:jpeg,jpg,png,gif',$img_max_size]
+
 
         ]);
 
-        $valid['from'] = date('Y-m-d',strtotime($valid['from']) );
-        $valid['to'] = date('Y-m-d',strtotime($valid['to']) );
+        $from_date = str_before($request['from-to'],'-');
+        $to_date = str_after($request['from-to'],'-');
+
+        $from_date = date('Y-m-d',strtotime($from_date) );
+
+        $to_date = date('Y-m-d',strtotime($to_date) );
+
         $valid['date'] = date('Y-m-d',strtotime($valid['date']) );
+
 
         if($valid['fee_type'] == 'international_fee') $valid['fee_type'] = 1;
         else $valid['fee_type'] = 0;
@@ -123,15 +140,15 @@ class ApplicationController extends Controller
 
 
         $application = new Application();
-        if($request->has('user')){
-            $application->user_id = $request['user'];
-        }
-        else $application->user_id = Auth::user()->id;
-
+//        if($request->has('user')){
+//            $application->user_id = $request['user'];
+//        }
+//        else $application->user_id = Auth::user()->id;
+        $application->user_id = $valid['user'];
         $application->festival_name = $valid['festival_name'];
         $application->festival_type = $valid['festival_type'];
-        $application->from = $valid['from'];
-        $application->to = $valid['to'];
+        $application->from = $from_date;
+        $application->to = $to_date;
         $application->festival_place = $valid['festival_place'];
         $application->festival_place_attach = $valid['festival_place_attach'];
         $application->applicant_name = $valid['applicant_name'];
@@ -153,6 +170,9 @@ class ApplicationController extends Controller
         $application->status = 0;
 
         $application->save();
+
+        $mail_receiver = DB::table('users')->where('id',$application->user_id)->first();
+        Mail::to($mail_receiver->email)->send( new confirmation() );
 
         return redirect('/applications');
 

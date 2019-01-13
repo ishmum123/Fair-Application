@@ -2,16 +2,16 @@
 @section('content')
 
 
-    <form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="" method="post" action="/admins">
+    <form id="demo-form2"  class="form-horizontal form-label-left"  method="post" action="/admins">
         <h2>Create Admin</h2>
         @csrf
         <div class="form-group">
             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Name <span class="required">*</span>
             </label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                <input type="text" name="name"  class="form-control col-md-7 col-xs-12" data-parsley-id="8976" required><ul class="parsley-errors-list" id="parsley-id-8976"></ul>
+                <input type="text" name="name"  class="form-control col-md-7 col-xs-12" data-parsley-id="8976" required value="{{ old('name') }}"><ul class="parsley-errors-list" id="parsley-id-8976"></ul>
                 @if($errors->has('name'))
-                    <span style="color: red;">required</span>
+                    <small style="color: red;">{{ $errors->first('name') }}</small>
                 @endif
             </div>
 
@@ -20,9 +20,9 @@
         <div class="form-group">
             <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Email<span class="required">*</span></label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                <input name="email" id="middle-name" class="form-control col-md-7 col-xs-12" type="email" data-parsley-id="8197" required><ul class="parsley-errors-list" id="parsley-id-8197"></ul>
+                <input name="email" id="middle-name" class="form-control col-md-7 col-xs-12" type="email" data-parsley-id="8197" required value="{{ old('email') }}"><ul class="parsley-errors-list" id="parsley-id-8197"></ul>
                 @if($errors->has('email'))
-                    <span style="color: red;">required</span>
+                    <small style="color: red;">{{ $errors->first('email') }}</small>
                 @endif
             </div>
 
@@ -32,8 +32,17 @@
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <input id="middle-name" class="form-control col-md-7 col-xs-12" type="password" name="password" data-parsley-id="8197" required><ul class="parsley-errors-list" id="parsley-id-8197"></ul>
                 @if($errors->has('password'))
-                    <span style="color: red;">required</span>
+                    <small style="color: red;">{{ $errors->first('password') }}</small>
                 @endif
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Confirm Password<span class="required">*</span></label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <input id="middle-name" class="form-control col-md-7 col-xs-12" type="password" name="password_confirmation" data-parsley-id="8197" required><ul class="parsley-errors-list" id="parsley-id-8197"></ul>
+
             </div>
 
         </div>

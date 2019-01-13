@@ -2,41 +2,54 @@
 @section('content')
 
 
-    <form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
-        <h2>User Details</h2>
-        @csrf
-        <div class="form-group">
-            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Name
-            </label>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                <input type="text" name="name"  class="form-control col-md-7 col-xs-12" data-parsley-id="8976" value="{{ $user->name }}" readonly><ul class="parsley-errors-list" id="parsley-id-8976"></ul>
+    <@extends('layouts.master')
+@section('content')
+    <div class="panel panel-info" style="margin: 60px;">
+        <div class="page-header" style="text-align: center"><h1>User Details</h1></div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="col-md-6" style="text-align: right;" ><label for="name" >Name</label></div>
+                    <div class="col-md-6"><p for="name">{{ $user->name }}</p></div>
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-6" style="text-align: right;"><label for="name">Email</label></div>
+                    <div class="col-md-6"><p for="name">{{ $user->email }}</p></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div style="text-align: right;" class="col-md-6"><label for="name" >Role</label></div>
+                    <div class="col-md-6"><p for="name">User</p></div>
+                </div>
 
             </div>
-
-        </div>
-
-        <div class="form-group">
-            <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Email</label>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                <input name="email" id="middle-name" readonly class="form-control col-md-7 col-xs-12" type="email" data-parsley-id="8197" value="{{ $user->email }}"><ul class="parsley-errors-list" id="parsley-id-8197"></ul>
-
+            <div class="row">
+                <div class="col-md-6">
+                    <div style="text-align: right;" class="col-md-6"><label for="name" >Registered on</label></div>
+                    <div class="col-md-6"><p for="name">{{ date('F d, Y', strtotime($user->created_at) ) }}</p></div>
+                </div>
+                <div class="col-md-6">
+                    <div style="text-align: right;" class="col-md-6"><label for="name">Updated on</label></div>
+                    <div class="col-md-6"><p for="name">{{ $user->created_at == $user->updated_at ? 'Not Updated':date('F d, Y', strtotime($user->created_at) ) }}</p></div>
+                </div>
             </div>
 
-        </div>
-        <div class="form-group">
-            <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Password</label>
-            <div class="col-md-6 col-sm-6 col-xs-12">
-                <input readonly id="middle-name" class="form-control col-md-7 col-xs-12" type="password" name="password" data-parsley-id="8197" value="{{ $user->password }}"><ul class="parsley-errors-list" id="parsley-id-8197"></ul>
-            </div>
+
 
         </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-md-8"></div>
 
-        <div class="ln_solid"></div>
-        <div class="form-group">
-            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                Created at {{ $user->created_at }}
+                <div class="col-md-4">
+                    <a href="/users" role="button" class="btn btn-info">Cancel</a>
+                    <button class="btn btn-primary">Update</button>
+                </div>
             </div>
         </div>
 
-    </form>
+    </div>
+@endsection
+
 @endsection

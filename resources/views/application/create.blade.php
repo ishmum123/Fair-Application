@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
+
+
 @section('content')
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
@@ -10,110 +12,126 @@
                     <form onsubmit="return validateForm()" name="myform"
                           class="form-horizontal form-label-left" method="post" action="/applications" enctype="multipart/form-data" >
                         @csrf
-
+                        @php
+                            $required_att = 'required';
+                        @endphp
                         <span class="section">মেলা আয়োজনের অনুমোদনের জন্য অনলাইন আবেদন ফরম </span>
 
                         @if( Auth::user()->role < 3)
-                        <div class="item form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="users">User <span class="required">*</span></label>
+                            <div class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="users">আবেদনকারী <span class="">*</span></label>
 
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <select class="form-control col-md-7 col-xs-12" name="user" required>
-                                    <option value="default">Select One</option>
-                                    @foreach($applicants as $applicant)
-                                        <option value="{{ $applicant->id }}">{{ $applicant->name }}</option>
-                                    @endforeach
-                                </select>
-                                <span id="uu" style="color: red"></span>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    <select class="form-control col-md-7 col-xs-12" name="user">
+
+                                        <option value="default">Select One</option>
+                                        @foreach($applicants as $applicant)
+                                            @if($applicant->id == old('user'))
+                                                <option selected value="{{ $applicant->id }}">{{ $applicant->name }}</option>
+                                                @else
+                                                <option value="{{ $applicant->id }}">{{ $applicant->name }}</option>
+                                            @endif
+                                        @endforeach
+
+                                    </select>
+                                    <span id="uu" style="color: red"></span>
+                                    @if($errors->has('user'))
+                                        <small style="color: red;">{{ $errors->first('user') }}</small>
+                                    @endif
+                                </div>
+
                             </div>
-                        </div>
                         @endif
 
                         <div class="item form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">মেলা/প্রদর্শনীর নাম<span class="required">*</span>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">মেলা/প্রদর্শনীর নাম<span class="">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input required id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" type="text" name="festival_name" value="{{ old('festival_name') }}" >
+                                <input {{ $required_att }} id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" type="text" name="festival_name" value="{{ old('festival_name') }}" >
                                 @if($errors->has('festival_name'))
-                                    <span style="color: red;">required</span>
+                                    <small style="color: red;">{{ $errors->first('festival_name') }}</small>
                                 @endif
                             </div>
                         </div>
 
                         <div class="item form-group">
 
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">মেলার ধরণ<span class="required">*</span>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">মেলার ধরণ<span class="">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <label class="radio-inline"><input required type="radio" name="festival_type" value="national">দেশী</label>
+                                <label class="radio-inline"><input {{ $required_att }}  type="radio" name="festival_type" value="national">দেশী</label>
                                 <label class="radio-inline"><input type="radio" name="festival_type" value="international">আন্তর্জাতিক</label>
                                 <div>@if($errors->has('festival_type'))
-                                    <span style="color: red;">Select one of the two</span>
-                                @endif </div>
+                                        <small style="color: red;">{{ $errors->first('festival_type') }}</small>
+                                    @endif </div>
                             </div>
 
                         </div>
 
                         <div class="item form-group">
 
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">মেলা/প্রদর্শনীর মেয়াদকাল <span class="required">*</span>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">মেলা/প্রদর্শনীর মেয়াদকাল <span class="">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <div class="input-group input-daterange">
-                                    <input type="text" class="form-control"  id="from" name="from" value="{{ old('from') }}">
-                                    <div class="input-group-addon">to</div>
-                                    <input type="text" class="form-control"  id="to" name="to" value="{{ old('to') }}">
+                                @php
+                                    $date_range = date('F d, Y').' - '.date('F d, Y', strtotime("+3 week"));
+                                @endphp
 
-                                </div>
-                                @if($errors->has('from') || $errors->has('to'))
-                                    <span style="color: red;">Select start and end Date</span>
+
+                                <input {{ $required_att }} placeholder="Select Duration" class="form-control col-md-7 col-xs-12" id="reportrange_right" name="from-to" value="{{ old('from-to')? old('from-to'):'' }}" autocomplete="off">
+                                @if($errors->has('from-to'))
+                                    <small style="color: red;">{{ $errors->first('from-to') }}</small>
                                 @endif
-
                             </div>
+
                         </div>
+
 
 
                         <div class="item form-group">
 
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">মেলা/প্রদর্শনীর স্থান<span class="required">*</span>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">মেলা/প্রদর্শনীর স্থান<span class="">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input required id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="festival_place" type="text" value="{{ old('festival_place') }}">
+                                <input {{ $required_att }} id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="festival_place" type="text" value="{{ old('festival_place') }}">
                                 @if($errors->has('festival_place'))
-                                    <span style="color: red;">Required</span>
+                                    <small style="color: red;">{{ $errors->first('festival_place') }}</small>
                                 @endif
                             </div>
                         </div>
                         <div class="item form-group">
 
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">স্থান বরাদ্দপত্র সংযুক্ত করতে হবে<span class="required">*</span>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">স্থান বরাদ্দপত্র সংযুক্ত করতে হবে<span class="">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input required type="file" name="festival_place_attach" value="{{ old('festival_place_attach') }}">
+                                <input {{ $required_att }} type="file" name="festival_place_attach" value="{{ old('festival_place_attach') }}">
                                 @if($errors->has('festival_place_attach'))
-                                    <span style="color: red;">Select an valid image formate</span>
+                                    @foreach ($errors->get('festival_place_attach') as $error)
+                                        <small style="color: red;">{{ $error}}</small>
+                                    @endforeach
                                 @endif
                             </div>
+
 
                         </div>
 
                         <div class="item form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">আবেদনকারী প্রতিষ্ঠান/সংগঠনের নাম<span class="required">*</span>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">আবেদনকারী প্রতিষ্ঠান/সংগঠনের নাম<span class="">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input required id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="applicant_name"  type="text" value="{{ old('applicant_name') }}">
+                                <input {{ $required_att }} id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="applicant_name"  type="text" value="{{ old('applicant_name') }}">
                                 @if($errors->has('applicant_name'))
-                                    <span style="color: red;">Required</span>
+                                    <small style="color: red;">{{ $errors->first('applicant_name') }}</small>
                                 @endif
                             </div>
                         </div>
                         <div class="item form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">প্রতিষ্ঠান/সংগঠনের  ঠিকানা<span class="required">*</span>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">প্রতিষ্ঠান/সংগঠনের  ঠিকানা<span class="">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <textarea id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="applicant_address">{{ old('applicant_address') }}</textarea>
+                                <textarea {{ $required_att }} id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="applicant_address">{{ old('applicant_address') }}</textarea>
                                 @if($errors->has('applicant_address'))
-                                    <span style="color: red;">Required</span>
+                                    <small style="color: red;">{{ $errors->first('applicant_address') }}</small>
                                 @endif
                             </div>
 
@@ -126,7 +144,7 @@
                                 <input  class="form-control col-md-7 col-xs-12" id="tel" name="applicant_telephone" type="text" value="{{ old('applicant_telephone') }}">
 
                                 @if($errors->has('applicant_telephone'))
-                                    <span style="color: red;">Required</span>
+                                    <small style="color: red;">{{ $errors->first('applicant_telephone') }}</small>
                                 @endif
                             </div>
                         </div>
@@ -137,148 +155,155 @@
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <input  class="form-control col-md-7 col-xs-12" id="mob" name="applicant_mobile"  type="text" value="{{ old('applicant_mobile') }}">
                                 @if($errors->has('applicant_mobile'))
-                                    <span style="color: red;">Required</span>
+                                    <small style="color: red;">{{ $errors->first('applicant_mobile') }}</small>
                                 @endif
-                                <span id="hint" style="color: red;"></span>
+                                <small id="hint" style="color: red;"></small>
                             </div>
 
                         </div>
                         <div class="item form-group">
 
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">ইমেইল<span class="required">*</span>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">ইমেইল<span class="">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input required  class="form-control col-md-7 col-xs-12" name="applicant_email" type="email" value="{{ old('applicant_email') }}">
+                                <input {{ $required_att }}  class="form-control col-md-7 col-xs-12" name="applicant_email" type="email" value="{{ old('applicant_email') }}">
                                 @if($errors->has('applicant_email'))
-                                    <span style="color: red;">Required</span>
+                                    <small style="color: red;">{{ $errors->first('applicant_email') }}</small>
                                 @endif
                             </div>
                         </div>
 
                         <div class="item form-group">
 
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">কোম্পানি রেজি:নম্বর/ট্রেড লাইসেন্স<span class="required">*</span>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">কোম্পানি রেজি:নম্বর/ট্রেড লাইসেন্স<span class="">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input required id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="reg_no" type="text" value="{{ old('reg_no') }}">
+                                <input {{ $required_att }} id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="reg_no" type="text" value="{{ old('reg_no') }}">
                                 @if($errors->has('reg_no'))
-                                    <span style="color: red;">Required</span>
+                                    <small style="color: red;">{{ $errors->first('reg_no') }}</small>
                                 @endif
                             </div>
                         </div>
                         <div class="item form-group">
 
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">হালনাগাদ কপি সংযুক্ত করতে হবে<span class="required">*</span>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">হালনাগাদ কপি সংযুক্ত করতে হবে<span class="">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input required type="file" name="reg_no_attach" value="{{ old('reg_no_attach') }}">
+                                <input {{ $required_att }} type="file" name="reg_no_attach" value="{{ old('reg_no_attach') }}">
                                 @if($errors->has('reg_no_attach'))
-                                    <span style="color: red;">Select an valid image Formate</span>
+                                    @foreach ($errors->get('reg_no_attach') as $error)
+                                        <small style="color: red;">{{ $error}}</small>
+                                    @endforeach
                                 @endif
                             </div>
                         </div>
 
                         <div class="item form-group">
 
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">টিন সার্টিফিকেট ও আয়কর সার্টিফিকেট<span class="required">*</span>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">টিন সার্টিফিকেট ও আয়কর সার্টিফিকেট<span class="">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input required id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="tin_no" type="text" value="{{ old('tin_no') }}">
+                                <input {{ $required_att }} id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="tin_no" type="text" value="{{ old('tin_no') }}">
                                 @if($errors->has('tin_no'))
-                                    <span style="color: red;">Required</span>
+                                    <small style="color: red;">{{ $errors->first('tin_no') }}</small>
                                 @endif
                             </div>
                         </div>
                         <div class="item form-group">
 
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">হালনাগাদ কপি সংযুক্ত করতে হবে<span class="required">*</span>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">হালনাগাদ কপি সংযুক্ত করতে হবে<span class="">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input required type="file" name="tin_no_attach" value="{{ old('tin_no_attach') }}">
+                                <input {{ $required_att }} type="file" name="tin_no_attach" >
                                 @if($errors->has('tin_no_attach'))
-                                    <span style="color: red;">Select an valid image Formate</span>
+                                    @foreach ($errors->get('tin_no_attach') as $error)
+                                        <small style="color: red;">{{ $error}}</small>
+                                    @endforeach
                                 @endif
                             </div>
                         </div>
 
                         <div class="item form-group">
 
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">ভ্যাট রেজি:নম্বর<span class="required">*</span>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">ভ্যাট রেজি:নম্বর<span class="">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input required id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="vat_reg_no" type="text" value="{{ old('vat_reg_no') }}">
+                                <input {{ $required_att }} id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="vat_reg_no" type="text" value="{{ old('vat_reg_no') }}">
                                 @if($errors->has('vat_reg_no'))
-                                    <span style="color: red;">Required</span>
+                                    <small style="color: red;">{{ $errors->first('vat_reg_no') }}</small>
                                 @endif
                             </div>
                         </div>
                         <div class="item form-group">
 
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">হালনাগাদ কপি সংযুক্ত করতে হবে<span class="required">*</span>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">হালনাগাদ কপি সংযুক্ত করতে হবে<span class="">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input required type="file" name="vat_reg_no_attach" value="{{ old('vat_reg_no_attach') }}">
+                                <input {{ $required_att }} type="file" name="vat_reg_no_attach" value="{{ old('vat_reg_no_attach') }}">
                                 @if($errors->has('vat_reg_no_attach'))
-                                    <span style="color: red;">Select an valid image Formate</span>
+                                    @foreach ($errors->get('vat_reg_no_attach') as $error)
+                                        <small style="color: red;">{{ $error}}</small>
+                                    @endforeach
                                 @endif
                             </div>
                         </div>
 
                         <div class="item form-group">
 
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">চালান নম্বর<span class="required">*</span>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">চালান নম্বর<span class="">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input required type="text" name="chaalan_no" value="{{ old('chaalan_no') }}">
-                                <div>@if($errors->has('chaalan_no'))
-                                        <span style="color: red;">Required</span>
-                                    @endif</div>
+                                <input {{ $required_att }} class="form-control"  type="text" name="chaalan_no" value="{{ old('chaalan_no') }}">
+                                @if($errors->has('chaalan_no'))
+                                    <small style="color: red;">{{ $errors->first('chaalan_no') }}</small>
+                                @endif
                             </div>
 
                         </div>
                         <div class="item form-group">
 
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">তারিখ<span class="required">*</span>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">তারিখ<span class="">*</span>
                             </label>
-                            <div class="col-md-2 col-sm-2 col-xs-4">
-                                <input required class="form-control" name="date" id="date" value="{{ old('date') }}">
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                {{--placeholder="{{ old('date')?date('F d, Y', strtotime(old('date'))):'Select Date' }}"--}}
+                                <input {{ $required_att }} placeholder="Select Date" type="text" name="date" value="{{ old('date')?old('date'):'' }}" class="form-control " id="single_cal2" autocomplete="off" >
                                 @if($errors->has('date'))
-                                    <span style="color: red;">Required</span>
+                                    <small style="color: red;">{{ $errors->first('date') }}</small>
                                 @endif
                             </div>
                         </div>
                         <div class="item form-group">
 
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">ব্যাংকের নাম<span class="required">*</span>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">ব্যাংকের নাম<span class="">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input required type="text" name="bank_name" class="form-control col-md-7 col-xs-12" value="{{ old('bank_name') }}">
+                                <input {{ $required_att }} type="text" name="bank_name" class="form-control col-md-7 col-xs-12" value="{{ old('bank_name') }}">
                                 @if($errors->has('bank_name'))
-                                    <span style="color: red;">Required</span>
+                                    <small style="color: red;">{{ $errors->first('bank_name') }}</small>
                                 @endif
                             </div>
                         </div>
                         <div class="item form-group">
 
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">শাখার নাম<span class="required">*</span>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">শাখার নাম<span class="">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input required type="text" name="branch_name" class="form-control col-md-7 col-xs-12" value="{{ old('branch_name') }}">
+                                <input {{ $required_att }} type="text" name="branch_name" class="form-control col-md-7 col-xs-12" value="{{ old('branch_name') }}">
                                 @if($errors->has('branch_name'))
-                                    <span style="color: red;">Required</span>
+                                    <small style="color: red;">{{ $errors->first('branch_name') }}</small>
                                 @endif
                             </div>
                         </div>
 
                         <div class="item form-group">
 
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">চালান ( কোড নং-১১৭০১০০০১২৬৮১) জমাকৃত টাকার পরিমাণ<span class="required">*</span>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">চালান ( কোড নং-১১৭০১০০০১২৬৮১) জমাকৃত টাকার পরিমাণ<span class="">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <label><input required type="radio" name="fee_type" value="national_fee">স্থানীয় মেলা আয়োজনের ফি ৫০০০/- (পাঁচ হাজার) টাকা</label>
+                                <label><input {{ $required_att }} type="radio" name="fee_type" value="national_fee">স্থানীয় মেলা আয়োজনের ফি ৫০০০/- (পাঁচ হাজার) টাকা</label>
                                 <label><input type="radio" name="fee_type" value="international_fee">আন্তর্জাতিক মেলা আয়োজনের ফি ২০০ মার্কিন ডলারের  সমপরিমাণ টাকা </label>
                                 <div>@if($errors->has('fee_type'))
-                                        <span style="color: red;">Select one of the two</span>
+                                        <small style="color: red;">{{ $errors->first('fee_type') }}</small>
                                     @endif</div>
                             </div>
                         </div>
@@ -289,7 +314,7 @@
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-3">
-                                <button type="submit" class="btn btn-primary">Cancel</button>
+                                <a href="/applications" role="button" class="btn btn-primary">Cancel</a>
                                 <button id="send" type="submit" class="btn btn-success">Submit</button>
                             </div>
                         </div>
@@ -299,5 +324,29 @@
             </div>
         </div>
     </div>
+
+
+
+    @include('layouts.include.date-related-script')
+    <script>
+        function validateForm() {
+            var id = true;
+            @if(\Illuminate\Support\Facades\Auth::user()->role < 3)
+                var u = document.forms["myform"]["user"].value;
+
+                if(u == "default"){
+                    document.getElementById("uu").innerHTML = "Select an user";
+                    id = false;
+                }
+            @endif
+            var x = document.forms["myform"]["applicant_telephone"].value;
+            var y = document.forms["myform"]["applicant_mobile"].value;
+            if (x == "" && y == "") {
+                document.getElementById("hint").innerHTML = "Phone number or Telephone number must be filled up";
+                id = false;
+            }
+            return id;
+        }
+    </script>
 
 @endsection

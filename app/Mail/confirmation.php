@@ -29,6 +29,6 @@ class confirmation extends Mailable
      */
     public function build()
     {
-        return $this->from('laravel@gmail.com')->view('mail.message');
+        return $this->from('festival19.bd@gmail.com')->view('mail.message')->subject('Application for festival is received');
     }
 }

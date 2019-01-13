@@ -23,14 +23,16 @@ Auth::routes();
 
 Route::get('/dashboard', 'DashboardController@dashboard')->name('dashboard');
 Route::resource('infos','InfoController');
+Route::resource('welcomes','WelcomeController');
 Route::resource('admins', 'AdminController');
 Route::resource('users','UsersController');
 Route::resource('applications', 'ApplicationController');
 Route::get('applications-processed', 'ApplicationController@processed');
 Route::get('/applications-unprocessed', 'ApplicationController@unprocessed');
 Route::get('/applications-rejected', 'ApplicationController@rejected');
+
 Route::get('/', function () {
-    return view('auth.login');
+    return view('home.welcome');
 })->middleware('guest');
 
 

@@ -1,5 +1,7 @@
 @extends('layouts.master')
 
+
+
 @section('content')
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
@@ -15,7 +17,7 @@
 
                         @if( Auth::user()->role < 3)
                         <div class="item form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="users">User <span class="">*</span></label>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="users">আবেদনকারী <span class="">*</span></label>
 
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <select class="form-control col-md-7 col-xs-12" name="user" >
@@ -59,18 +61,23 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">মেলা/প্রদর্শনীর মেয়াদকাল <span class="">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <div class="input-group input-daterange">
-                                    <input type="text" class="form-control"  id="from" name="from" value="{{ old('from') }}">
-                                    <div class="input-group-addon">to</div>
-                                    <input type="text" class="form-control"  id="to" name="to" value="{{ old('to') }}">
+                                {{--<div class="input-group input-daterange">--}}
+                                    {{--<input type="text" class="form-control"  id="from" name="from" value="{{ old('from') }}">--}}
+                                    {{--<div class="input-group-addon">to</div>--}}
+                                    {{--<input type="text" class="form-control"  id="to" name="to" value="{{ old('to') }}">--}}
 
+                                {{--</div>--}}
+                                <div   style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
+                                    <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                                   <input id="reportrange_right" name="from-to" value="{{ old('from-to') }}"> <b class="caret"></b>
                                 </div>
-                                @if($errors->has('from') || $errors->has('to'))
+                                @if($errors->has('from-to'))
                                     <span style="color: red;">Select start and end Date</span>
                                 @endif
 
                             </div>
                         </div>
+
 
 
                         <div class="item form-group">
@@ -91,12 +98,12 @@
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <input  type="file" name="festival_place_attach" value="{{ old('festival_place_attach') }}">
                                 @if($errors->has('festival_place_attach'))
-                                @foreach ($errors->get('festival_place_attach') as $error) 
+                                @foreach ($errors->get('festival_place_attach') as $error)
                                     <span style="color: red;">{{ $error}}</span>
                                 @endforeach
                                 @endif
                             </div>
-                            
+
 
                         </div>
 
@@ -302,5 +309,10 @@
             </div>
         </div>
     </div>
+
+
+
+
+
 
 @endsection

@@ -4,6 +4,17 @@
   <h3>{{ Auth::user()->email }}</h3>
   <ul class="nav side-menu">
     @if(\Illuminate\Support\Facades\Auth::user()->role < 2)
+      <li><a><i class="fa fa-edit"></i> Settings <span class="fa fa-chevron-down"></span></a>
+        <ul class="nav child_menu" style="display: none">
+          <li><a href="/welcomes/create">Add New Image</a>
+          </li>
+
+          <li><a href="/welcomes">All Images</a>
+          </li>
+        </ul>
+      </li>
+    @endif
+    @if(\Illuminate\Support\Facades\Auth::user()->role < 2)
     <li><a><i class="fa fa-edit"></i> Admins <span class="fa fa-chevron-down"></span></a>
       <ul class="nav child_menu" style="display: none">
         <li><a href="/admins/create">Create New</a>
