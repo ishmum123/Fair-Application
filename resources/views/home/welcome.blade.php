@@ -77,7 +77,7 @@
         @endphp
         @if($welcomes->count())
             @foreach( $welcomes as $welcome)
-                <div class="site-blocks-cover" style="background-image: url(/storage/{{ $welcome->image_location }});" data-aos="fade" data-stellar-background-ratio="0.5">
+                <div class="site-blocks-cover" style="background-image: url('/storage/{{ $welcome->image_location }}');" data-aos="fade" data-stellar-background-ratio="0.5">
                     <div class="container">
                         <div class="row align-items-center justify-content-center">
                             <div class="col-md-7 text-center" data-aos="fade">
