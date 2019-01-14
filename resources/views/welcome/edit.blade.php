@@ -24,7 +24,7 @@
                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Old Image <span class="required">*</span>
                 </label>
                 <div >
-                    <img class="col-md-6 col-sm-6 col-xs-12" style="height: 250px;" src="/storage/{{ $welcome->image_location }}" alt="">
+                    <img class="col-md-6 col-sm-6 col-xs-12" style="height: 250px;" src="/uploads/{{ $welcome->image_location }}" alt="">
                 </div>
 
             </div>

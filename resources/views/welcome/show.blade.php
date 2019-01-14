@@ -45,7 +45,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="col-md-2"></div>
-                    <img class="col-md-8" src="/storage/{{ $welcome->image_location }}" alt="">
+                    <img class="col-md-8" src="/uploads/{{ $welcome->image_location }}" alt="">
                     <div class="col-md-2"></div>
 
                 </div>

@@ -47,8 +47,8 @@
                     <div class="col-md-4" style="text-align: right;"><label for="name" >হালনাগাদ কপি সংযুক্তি</label></div>
                     <div class="col-md-1">--</div>
                     <div>
-                    <img class="col-md-7" src="/storage/{{$application->festival_place_attach}}" alt=""><span class="pull-right" style="margin-right: 5px;">
-                    <a href="/storage/{{$application->festival_place_attach}}" download="স্থান বরাদ্দপত্র সংযুক্তি" class="btn btn-dark"><span class="glyphicon glyphicon-save"></span> Download</a></span></div>
+                    <img class="col-md-7" src="/uploads/{{$application->festival_place_attach}}" alt=""><span class="pull-right" style="margin-right: 5px;">
+                    <a href="/uploads/{{$application->festival_place_attach}}" download="স্থান বরাদ্দপত্র সংযুক্তি" class="btn btn-dark"><span class="glyphicon glyphicon-save"></span> Download</a></span></div>
                 </div>
             </div>
 
@@ -97,9 +97,9 @@
                 <div class="col-md-12">
                     <div class="col-md-4" style="text-align: right;" ><label for="name" >হালনাগাদ কপি সংযুক্তি</label></div>
                     <div class="col-md-1">--</div>
-                    <div ><img class="col-md-7" src="/storage/{{$application->reg_no_attach}}" alt="">
+                    <div ><img class="col-md-7" src="/uploads/{{$application->reg_no_attach}}" alt="">
                         <span class="pull-right" style="margin-right: 5px;">
-                        <a href="/storage/{{$application->reg_no_attach}}" download="হালনাগাদ কপি সংযুক্তি" class="btn btn-dark"><span class="glyphicon glyphicon-save"></span> Download</a></span></div>
+                        <a href="/uploads/{{$application->reg_no_attach}}" download="হালনাগাদ কপি সংযুক্তি" class="btn btn-dark"><span class="glyphicon glyphicon-save"></span> Download</a></span></div>
                 </div>
 
             </div>
@@ -122,9 +122,9 @@
                 <div class="col-md-12">
                     <div class="col-md-4" style="text-align: right;" ><label for="name" >হালনাগাদ কপি সংযুক্তি</label></div>
                     <div class="col-md-1">--</div>
-                    <div ><img class="col-md-7"  src="/storage/{{$application->tin_no_attach}}" alt="">
+                    <div ><img class="col-md-7"  src="/uploads/{{$application->tin_no_attach}}" alt="">
                         <span class="pull-right" style="margin-right: 5px;">
-                        <a href="/storage/{{$application->tin_no_attach}}" download="হালনাগাদ কপি সংযুক্তি" class="btn btn-dark"><span class="glyphicon glyphicon-save"></span> Download</a></span></div>
+                        <a href="/uploads/{{$application->tin_no_attach}}" download="হালনাগাদ কপি সংযুক্তি" class="btn btn-dark"><span class="glyphicon glyphicon-save"></span> Download</a></span></div>
                 </div>
 
             </div>
@@ -146,9 +146,9 @@
                 <div class="col-md-12">
                     <div class="col-md-4" style="text-align: right;" ><label for="name" >হালনাগাদ কপি সংযুক্তি</label></div>
                     <div class="col-md-1">--</div>
-                    <div ><img class="col-md-7"  src="/storage/{{$application->vat_reg_no_attach}}" alt="">
+                    <div ><img class="col-md-7"  src="/uploads/{{$application->vat_reg_no_attach}}" alt="">
                         <span class="pull-right" style="margin-right: 5px;">
-                        <a href="/storage/{{$application->vat_reg_no_attach}}" download="হালনাগাদ কপি সংযুক্তি" class="btn btn-dark"><span class="glyphicon glyphicon-save"></span> Download</a></span></div>
+                        <a href="/uploads/{{$application->vat_reg_no_attach}}" download="হালনাগাদ কপি সংযুক্তি" class="btn btn-dark"><span class="glyphicon glyphicon-save"></span> Download</a></span></div>
                 </div>
 
             </div>

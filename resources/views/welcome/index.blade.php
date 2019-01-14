@@ -10,7 +10,7 @@
                             <label><h3>{{ $welcome->image_title }}</h3></label>
                         </div>
 
-                            <img class="col-md-12" style="height: 200px; margin-left: -10px;" src="/storage/{{ $welcome->image_location }}" alt="">
+                            <img class="col-md-12" style="height: 200px; margin-left: -10px;" src="/uploads/{{ $welcome->image_location }}" alt="">
 
                         <div>
                             <label>{{ $welcome->active? 'active':'inactive' }}</label>
