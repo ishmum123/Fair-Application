@@ -28,9 +28,9 @@
     @if(\Illuminate\Support\Facades\Auth::user()->role < 3)
     <li><a><i class="fa fa-desktop"></i> Users <span class="fa fa-chevron-down"></span></a>
       <ul class="nav child_menu" style="display: none">
-        <li><a href="{{ url('/users/create') }}">Create New</a>
+        <li><a href="{{ url('/appusers/create') }}">Create New</a>
         </li>
-        <li><a href="{{ url('/users') }}">All</a>
+        <li><a href="{{ url('/appusers') }}">All</a>
         </li>
       </ul>
     </li>
