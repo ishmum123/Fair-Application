@@ -16,6 +16,7 @@ class checkAdmin
     public function handle($request, Closure $next)
     {
         if(\Auth::user()->role > 2){
+//            dd(\Auth::user()->role >2 );
             return back();
         }
         return $next($request);

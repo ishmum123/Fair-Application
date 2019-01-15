@@ -16,6 +16,7 @@ class CheckSuperAdmin
     public function handle($request, Closure $next)
     {
         if(\Auth::user()->role != 1){
+//            dd("I am gone");
             return back();
 
         }
