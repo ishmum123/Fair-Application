@@ -210,6 +210,7 @@ class ApplicationController extends Controller
      */
     public function update(Request $request, Application $application)
     {
+        return "I am here";
 
         if($request->has('process')){
             $application->status = 1;
