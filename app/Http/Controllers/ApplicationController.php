@@ -18,7 +18,7 @@ class ApplicationController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('checkSuper', ['only' => ['update']]);
-//        $this->middleware('checkAdmin', ['only' => ['update']]);
+        $this->middleware('checkAdmin', ['only' => ['update']]);
     }
     /**
      * Display a listing of the resource.
