@@ -85,9 +85,9 @@ return [
     |
     */
 
-    'username' => env('festival19.bd@gmail.com'),
+    'username' => env('MAIL_USERNAME', 'festival19.bd@gmail.com'),
 
-    'password' => env('eczshgtujosxxlbx'),
+    'password' => env('MAIL_PASSWORD','eczshgtujosxxlbx'),
 
     /*
     |--------------------------------------------------------------------------
