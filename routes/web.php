@@ -25,7 +25,7 @@ Route::get('/dashboard', 'DashboardController@dashboard')->name('dashboard');
 Route::resource('infos','InfoController');
 Route::resource('welcomes','WelcomeController');
 Route::resource('admins', 'AdminController');
-Route::resource('appusers','UserController');
+Route::resource('users','UserController');
 Route::resource('applications', 'ApplicationController');
 Route::get('applications-processed', 'ApplicationController@processed');
 Route::get('/applications-unprocessed', 'ApplicationController@unprocessed');

@@ -97,7 +97,10 @@
                 <div class="col-md-12">
                     <div class="col-md-4" style="text-align: right;" ><label for="name" >হালনাগাদ কপি সংযুক্তি</label></div>
                     <div class="col-md-1">--</div>
-                    <div ><img class="col-md-7" src="/uploads/{{$application->reg_no_attach}}" alt="">
+                    @php
+                        echo base_path();
+                    @endphp
+                    <div ><img class="col-md-7" src="/{{$application->reg_no_attach}}" alt="">
                         <span class="pull-right" style="margin-right: 5px;">
                         <a href="/uploads/{{$application->reg_no_attach}}" download="হালনাগাদ কপি সংযুক্তি" class="btn btn-dark"><span class="glyphicon glyphicon-save"></span> Download</a></span></div>
                 </div>
@@ -146,9 +149,13 @@
                 <div class="col-md-12">
                     <div class="col-md-4" style="text-align: right;" ><label for="name" >হালনাগাদ কপি সংযুক্তি</label></div>
                     <div class="col-md-1">--</div>
-                    <div ><img class="col-md-7"  src="/uploads/{{$application->vat_reg_no_attach}}" alt="">
+                    @php
+                        echo url('/uploads/'.$application->vat_reg_no_attach);
+                    @endphp
+                    <div ><img class="col-md-7"  src= '/uploads/'.{{$application->vat_reg_no_attach}} >
                         <span class="pull-right" style="margin-right: 5px;">
-                        <a href="/uploads/{{$application->vat_reg_no_attach}}" download="হালনাগাদ কপি সংযুক্তি" class="btn btn-dark"><span class="glyphicon glyphicon-save"></span> Download</a></span></div>
+
+                        <a href="{{ asset('/uploads/'.$application->vat_reg_no_attach) }}" download="হালনাগাদ কপি সংযুক্তি" class="btn btn-dark"><span class="glyphicon glyphicon-save"></span> Download</a></span></div>
                 </div>
 
             </div>

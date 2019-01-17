@@ -56,12 +56,12 @@
                         <small for="" style="color: red;">{{ $errors->first('email') }}</small>
                 @endif
 
-                <div class="wrap-input100 validate-input m-b-{{ $errors->has('email')? 0:18 }}" data-validate = "Password is required">
+                <div class="wrap-input100 validate-input m-b-{{ $errors->has('password')? 0:18 }}" data-validate = "Password is required">
                     <span class="label-input100">Password</span>
                     <input class="input100" type="password" name="password" placeholder="Enter password">
                     <span class="focus-input100"></span>
                 </div>
-                @if($errors->has('email'))
+                @if($errors->has('password'))
                     <small for="" style="color: red;">{{ $errors->first('password') }}</small>
                 @endif
 
