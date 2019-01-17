@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'FestivalBD'),
 
     /*
     |--------------------------------------------------------------------------
@@ -119,7 +119,7 @@ return [
     |
     */
 
-    'key' => env('APP_KEY'),
+    'key' => env('APP_KEY','base64:poTkBEKH7t/i9Db/oJgfwne+SpOcsQYsW0fYVLBx1N8='),
 
     'cipher' => 'AES-256-CBC',
 
