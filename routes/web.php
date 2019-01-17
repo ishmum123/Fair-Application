@@ -30,9 +30,9 @@ Route::resource('applications', 'ApplicationController');
 Route::get('applications-processed', 'ApplicationController@processed');
 Route::get('/applications-unprocessed', 'ApplicationController@unprocessed');
 Route::get('/applications-rejected', 'ApplicationController@rejected');
-Route::get('/', 'DashboardController@empty');
-//Route::get('/', function () {
-//    return view('home.welcome');
-//})->middleware('guest');
+//Route::get('/', 'DashboardController@empty');
+Route::get('/', function () {
+    return view('home.welcome');
+})->middleware('guest');
 
 
