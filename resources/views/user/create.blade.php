@@ -31,7 +31,7 @@
         <div class="form-group">
             <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Password<span class="required">*</span></label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                <input id="middle-name" class="form-control col-md-7 col-xs-12" type="password" name="password" data-parsley-id="8197" required><ul class="parsley-errors-list" id="parsley-id-8197"></ul>
+                <input id="middle-name" class="form-control col-md-7 col-xs-12" type="password" name="password" data-parsley-id="8197" required value="{{ old('password') }}"><ul class="parsley-errors-list" id="parsley-id-8197"></ul>
                 @if($errors->has('password'))
                     <small style="color: red;">{{ $errors->first('password') }}</small>
                 @endif
@@ -42,10 +42,25 @@
         <div class="form-group">
             <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Confirm Password<span class="required">*</span></label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                <input id="middle-name" class="form-control col-md-7 col-xs-12" type="password" name="password_confirmation" data-parsley-id="8197" required><ul class="parsley-errors-list" id="parsley-id-8197"></ul>
+                <input id="middle-name" class="form-control col-md-7 col-xs-12" type="password" name="password_confirmation" data-parsley-id="8197" required value="{{ old('password_confirmation') }}"><ul class="parsley-errors-list" id="parsley-id-8197"></ul>
 
             </div>
 
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-3 col-sm-3 col-xs-12">Status</label>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+
+                <div id="gender" class="btn-group" data-toggle="buttons">
+
+                    <label id="active" class="btn btn-default">
+                        <input type="radio" name="status" value="inactive"  > &nbsp; Inactive &nbsp;
+                    </label><ul class="parsley-errors-list" id="parsley-id-multiple-gender"></ul>
+                    <label id="inactive" class="btn btn-primary">
+                        <input type="radio" name="status" value="active" checked> Active
+                    </label>
+                </div>
+            </div>
         </div>
 
         <div class="ln_solid"></div>
@@ -57,4 +72,19 @@
         </div>
 
     </form>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#active').click(function () {
+                $('#active').removeClass("btn-default").addClass('btn-primary');
+                $('#inactive').removeClass("btn-primary").addClass("btn-default");
+            });
+
+            $('#inactive').click(function () {
+                $('#active').removeClass("btn-primary").addClass('btn-default');
+                $('#inactive').removeClass("btn-default").addClass("btn-primary");
+            });
+
+        });
+    </script>
 @endsection

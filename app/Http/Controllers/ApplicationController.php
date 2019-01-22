@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\District;
+use App\Http\Middleware\redirct;
 use App\Mail\confirmation;
 use App\Models\Application;
 
@@ -27,24 +29,38 @@ class ApplicationController extends Controller
      */
     public function index()
     {
+        $applications = Application::all();
+        $current_user = Auth::user();
+        $current_user_role = Auth::user()->role;
 
-        if(Auth::user()->role > 2) $applications = Application::all()->where('user_id',Auth::user()->id)->sortByDesc('created_at');
-        else $applications = Application::all()->sortByDesc('created_at');
+        if($current_user_role == 1){
+            $applications = $applications->sortByDesc('created_at');
+            return view('application.index', compact('applications'));
+        }
+
+        elseif($current_user_role == 2){
+            $applications = $applications->where('district_id', $current_user->district_id)->sortByDesc('created_at');;
+            return view('application.index', compact('applications'));
+        }
+
+        else{
+            $applications = $applications->where('user_id', $current_user->id)->sortByDesc('created_at');
+            return view('application.index', compact('applications'));
+        }
 
 
-        return view('application.index', compact('applications'));
     }
 
 
 
-    public function processed(){
+    public function approved(){
         if(Auth::user()->role > 2) $applications = Application::all()->where( 'user_id', Auth::user()->id)
                                                                     ->where('status', 1)->sortByDesc('updated_at');
         else $applications = Application::all()->where('status', 1)->sortByDesc('updated_at');
         return view('application.process', compact('applications'));
     }
 
-    public function unprocessed(){
+    public function unapproved(){
         if(Auth::user()->role > 2) $applications = Application::all()->where( 'user_id', Auth::user()->id)
             ->where('status', 0)->sortByDesc('created_at');
         else $applications = Application::all()->where('status', 0)->sortByDesc('created_at');
@@ -65,11 +81,15 @@ class ApplicationController extends Controller
      */
     public function create()
     {
+
         if( Auth::user()->role < 3 ){
             $applicants = User::all()->where('role',3);
         }
         else $applicants = [];
-        return view('application.create',compact('applicants'));
+
+        $districts = District::all();
+
+        return view('application.create',compact(['applicants','districts']));
     }
 
     /**
@@ -83,14 +103,13 @@ class ApplicationController extends Controller
         if(Auth::user()->role == 3){
             $request['user'] = Auth::user()->id;
         }
-        else{
-            if($request['user'] == 'default') $request['user'] = '';
-        }
+
 
         $img_max_size = 'max:2048'; //max image size 1 MB
 
         $valid = request()->validate([
-            'user' => 'required',
+            'user' => 'required|not_in:default',
+            'district' => 'required|not_in:default',
             'festival_name' => 'required',
             'festival_type' => 'required',
             'from-to' => 'required',
@@ -102,16 +121,15 @@ class ApplicationController extends Controller
             'applicant_email' => 'required|email',
             'reg_no' => 'required',
             'tin_no' => 'required',
-            'vat_reg_no' => 'required',
             'chaalan_no' => 'required',
             'date' => 'required',
             'bank_name' => 'required',
             'branch_name' => 'required',
             'fee_type' => 'required',
-            'vat_reg_no_attach' => ['required','mimes:jpeg,jpg,png,gif',$img_max_size],
-            'tin_no_attach' => ['required','mimes:jpeg,jpg,png,gif',$img_max_size],
-            'reg_no_attach' => ['required','mimes:jpeg,jpg,png,gif',$img_max_size],
-            'festival_place_attach' => ['required','mimes:jpeg,jpg,png,gif',$img_max_size]
+            'tin_no_attach' => ['required','mimes:jpeg,jpg,png,gif,pdf',$img_max_size],
+            'reg_no_attach' => ['required','mimes:jpeg,jpg,png,gif,pdf',$img_max_size],
+            'festival_place_attach' => ['required','mimes:jpeg,jpg,png,gif,pdf',$img_max_size],
+            'vat_reg_no_attach' => ['mimes:jpeg,jpg,png,gif,pdf',$img_max_size]
 
 
         ]);
@@ -135,16 +153,15 @@ class ApplicationController extends Controller
         $valid['festival_place_attach'] = $request->file('festival_place_attach')->store('applications_files');
         $valid['reg_no_attach'] = $request->file('reg_no_attach')->store('applications_files');
         $valid['tin_no_attach'] = $request->file('tin_no_attach')->store('applications_files');
-        $valid['vat_reg_no_attach'] = $request->file('vat_reg_no_attach')->store('applications_files');
 
+        if($request->hasFile('vat_reg_no_attach') )
+            $valid['vat_reg_no_attach'] = $request->file('vat_reg_no_attach')->store('applications_files');
 
+//        Application::create($valid);
 
         $application = new Application();
-//        if($request->has('user')){
-//            $application->user_id = $request['user'];
-//        }
-//        else $application->user_id = Auth::user()->id;
         $application->user_id = $valid['user'];
+        $application->district_id = $valid['district'];
         $application->festival_name = $valid['festival_name'];
         $application->festival_type = $valid['festival_type'];
         $application->from = $from_date;
@@ -160,8 +177,10 @@ class ApplicationController extends Controller
         $application->reg_no_attach = $valid['reg_no_attach'];
         $application->tin_no = $valid['tin_no'];
         $application->tin_no_attach = $valid['tin_no_attach'];
-        $application->vat_reg_no = $valid['vat_reg_no'];
-        $application->vat_reg_no_attach = $valid['vat_reg_no_attach'];
+        if($request->has('vat_reg_no'))
+            $application->vat_reg_no = $request['vat_reg_no'];
+        if($request->hasFile('vat_reg_no_attach'))
+            $application->vat_reg_no_attach = $valid['vat_reg_no_attach'];
         $application->chaalan_no = $valid['chaalan_no'];
         $application->date = $valid['date'];
         $application->bank_name = $valid['bank_name'];
@@ -187,6 +206,9 @@ class ApplicationController extends Controller
      */
     public function show(Application $application)
     {
+        $current_user = Auth::user();
+        abort_if($current_user->role == 2 && $application->district_id != $current_user->district_id, 403);
+        abort_if($current_user->role == 3 && $application->user_id != $current_user->id, 403);
         return view('application.show', compact('application'));
     }
 
@@ -221,7 +243,7 @@ class ApplicationController extends Controller
             $application->save();
         }
 
-        return back();
+        return redirect('/applications');
     }
 
     /**

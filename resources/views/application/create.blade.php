@@ -44,6 +44,30 @@
                         @endif
 
                         <div class="item form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="users">জেলা<span class="">*</span></label>
+
+                            <div class="col-md-6 col-sm-6 col-xs-12">
+                                <select class="form-control col-md-7 col-xs-12 mdb-select md-form" name="district">
+
+                                    <option value="default">Select District</option>
+                                    @foreach($districts as $district)
+                                        @if($district->id == old('district'))
+                                            <option selected value="{{ $district->id }}">{{ $district->name }}</option>
+                                            @else
+                                            <option value="{{ $district->id }}">{{ $district->name }}</option>
+                                        @endif
+                                    @endforeach
+
+                                </select>
+                                <span id="uu" style="color: red"></span>
+                                @if($errors->has('district'))
+                                    <small style="color: red;">{{ $errors->first('district') }}</small>
+                                @endif
+                            </div>
+
+                        </div>
+
+                        <div class="item form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">মেলা/প্রদর্শনীর নাম<span class="">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -225,10 +249,10 @@
 
                         <div class="item form-group">
 
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">ভ্যাট রেজি:নম্বর<span class="">*</span>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">ভ্যাট রেজি:নম্বর<span class=""> (Optional)</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input {{ $required_att }} id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="vat_reg_no" type="text" value="{{ old('vat_reg_no') }}">
+                                <input id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="vat_reg_no" type="text" value="{{ old('vat_reg_no') }}">
                                 @if($errors->has('vat_reg_no'))
                                     <small style="color: red;">{{ $errors->first('vat_reg_no') }}</small>
                                 @endif
@@ -236,10 +260,10 @@
                         </div>
                         <div class="item form-group">
 
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">হালনাগাদ কপি সংযুক্ত করতে হবে<span class="">*</span>
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">হালনাগাদ কপি সংযুক্ত করতে হবে<span class=""> (Optional)</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input {{ $required_att }} type="file" name="vat_reg_no_attach" value="{{ old('vat_reg_no_attach') }}">
+                                <input type="file" name="vat_reg_no_attach" value="{{ old('vat_reg_no_attach') }}">
                                 @if($errors->has('vat_reg_no_attach'))
                                     @foreach ($errors->get('vat_reg_no_attach') as $error)
                                         <small style="color: red;">{{ $error}}</small>
@@ -328,7 +352,7 @@
 
 
     @include('layouts.include.date-related-script')
-    <script>
+    <script type="text/javascript">
         function validateForm() {
             var id = true;
             @if(\Illuminate\Support\Facades\Auth::user()->role < 3)

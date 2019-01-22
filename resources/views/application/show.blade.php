@@ -18,6 +18,14 @@
                     <div class="col-md-1">--</div>
                     <div class="col-md-7"><p for="name">{{ $application->festival_name }}</p></div>
                 </div>
+                <div class="col-md-12">
+                    <div class="col-md-4" style="text-align: right;"><label for="name">জেলা</label></div>
+                    <div class="col-md-1">--</div>
+                    @php
+                        $district = \Illuminate\Support\Facades\DB::table('districts')->where('id',$application->district_id)->get();
+                    @endphp
+                    <div class="col-md-7"><p for="name">{{ $district[0]->name }}</p></div>
+                </div>
             </div>
 
             <div class="row">
@@ -46,9 +54,23 @@
                 <div class="col-md-12">
                     <div class="col-md-4" style="text-align: right;"><label for="name" >হালনাগাদ কপি সংযুক্তি</label></div>
                     <div class="col-md-1">--</div>
-                    <div>
-                    <img class="col-md-7" src="/uploads/{{$application->festival_place_attach}}" alt=""><span class="pull-right" style="margin-right: 5px;">
-                    <a href="/uploads/{{$application->festival_place_attach}}" download="স্থান বরাদ্দপত্র সংযুক্তি" class="btn btn-dark"><span class="glyphicon glyphicon-save"></span> Download</a></span></div>
+
+
+                    @if(substr($application->festival_place_attach,-4) == '.pdf')
+                        <div class="col-md-7">
+                            <span  for="">স্থান বরাদ্দপত্র সংযুক্তি.pdf</span>
+                            <span class="pull-right" style="margin-right: 5px;"><a href="/uploads/{{$application->festival_place_attach}}" download="স্থান বরাদ্দপত্র সংযুক্তি" class="btn btn-dark">
+                            <span class="glyphicon glyphicon-save "></span> Download</a></span>
+                        </div>
+                        @else
+                            <div class="col-md-5">
+                                <img class="col-md-12" src="/uploads/{{$application->festival_place_attach}}" alt="">
+                                <span class="pull-right" style="margin-right: 5px;"><a href="/uploads/{{$application->festival_place_attach}}" download="স্থান বরাদ্দপত্র সংযুক্তি" class="btn btn-dark">
+                                <span class="glyphicon glyphicon-save "></span> Download</a></span>
+                            </div>
+                    @endif
+
+
                 </div>
             </div>
 
@@ -97,9 +119,19 @@
                 <div class="col-md-12">
                     <div class="col-md-4" style="text-align: right;" ><label for="name" >হালনাগাদ কপি সংযুক্তি</label></div>
                     <div class="col-md-1">--</div>
-                    <div ><img class="col-md-7" src="/uploads/{{$application->reg_no_attach}}" alt="">
-                        <span class="pull-right" style="margin-right: 5px;">
-                        <a href="/uploads/{{$application->reg_no_attach}}" download="হালনাগাদ কপি সংযুক্তি" class="btn btn-dark"><span class="glyphicon glyphicon-save"></span> Download</a></span></div>
+                    @if(substr($application->reg_no_attach,-4) == '.pdf')
+                        <div class="col-md-7">
+                            <span  for="">রেজিস্ট্রেশন নম্বরের সংযুক্তি.pdf</span>
+                            <span class="pull-right" style="margin-right: 5px;"><a href="/uploads/{{$application->reg_no_attach}}" download="রেজিস্ট্রেশন নম্বরের সংযুক্তি" class="btn btn-dark">
+                            <span class="glyphicon glyphicon-save "></span> Download</a></span>
+                        </div>
+                    @else
+                        <div class="col-md-5">
+                            <img class="col-md-12" src="/uploads/{{$application->reg_no_attach}}" alt="">
+                            <span class="pull-right" style="margin-right: 5px;"><a href="/uploads/{{$application->reg_no_attach}}" download="রেজিস্ট্রেশন নম্বরের সংযুক্তি" class="btn btn-dark">
+                                <span class="glyphicon glyphicon-save "></span> Download</a></span>
+                        </div>
+                    @endif
                 </div>
 
             </div>
@@ -122,40 +154,60 @@
                 <div class="col-md-12">
                     <div class="col-md-4" style="text-align: right;" ><label for="name" >হালনাগাদ কপি সংযুক্তি</label></div>
                     <div class="col-md-1">--</div>
-                    <div ><img class="col-md-7"  src="/uploads/{{$application->tin_no_attach}}" alt="">
-                        <span class="pull-right" style="margin-right: 5px;">
-                        <a href="/uploads/{{$application->tin_no_attach}}" download="হালনাগাদ কপি সংযুক্তি" class="btn btn-dark"><span class="glyphicon glyphicon-save"></span> Download</a></span></div>
+                    @if(substr($application->tin_no_attach,-4) == '.pdf')
+                        <div class="col-md-7">
+                            <span  for="">টিন নম্বরের সংযুক্তি.pdf</span>
+                            <span class="pull-right" style="margin-right: 5px;"><a href="/uploads/{{$application->tin_no_attach}}" download="টিন নম্বরের সংযুক্তি" class="btn btn-dark">
+                            <span class="glyphicon glyphicon-save "></span> Download</a></span>
+                        </div>
+                    @else
+                        <div class="col-md-5">
+                            <img class="col-md-12" src="/uploads/{{$application->tin_no_attach}}" alt="">
+                            <span class="pull-right" style="margin-right: 5px;"><a href="/uploads/{{$application->tin_no_attach}}" download="টিন নম্বরের সংযুক্তি" class="btn btn-dark">
+                                <span class="glyphicon glyphicon-save "></span> Download</a></span>
+                        </div>
+                    @endif
+
                 </div>
 
             </div>
-
-            <div class="row">
-                <div class="col-md-12">
+            @if($application->vat_reg_no != null)
+                <div class="row">
                     <div class="col-md-12">
-                        <div class="col-md-4" style="text-align: right;"><label for="name">ভ্যাট রেজি:নম্বর</label></div>
-                        <div class="col-md-1">--</div>
-                        <div class="col-md-7"><p>{{ $application->vat_reg_no }}</p></div>
+                        <div class="col-md-12">
+                            <div class="col-md-4" style="text-align: right;"><label for="name">ভ্যাট রেজি:নম্বর</label></div>
+                            <div class="col-md-1">--</div>
+                            <div class="col-md-7"><p>{{ $application->vat_reg_no }}</p></div>
+                        </div>
                     </div>
+
                 </div>
-
-            </div>
-
+            @endif
 
 
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="col-md-4" style="text-align: right;" ><label for="name" >হালনাগাদ কপি সংযুক্তি</label></div>
-                    <div class="col-md-1">--</div>
-                    @php
-                        echo url('/uploads/'.$application->vat_reg_no_attach);
-                    @endphp
-                    <div ><img class="col-md-7"  src= '/uploads/'.{{$application->vat_reg_no_attach}} >
-                        <span class="pull-right" style="margin-right: 5px;">
+            @if($application->vat_reg_no_attach != null)
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-4" style="text-align: right;" ><label for="name" >হালনাগাদ কপি সংযুক্তি</label></div>
+                        <div class="col-md-1">--</div>
+                        @if(substr($application->vat_reg_no_attach,-4) == '.pdf')
+                            <div class="col-md-7">
+                                <span  for="">ভ্যাট রেজিস্ট্রেশন নম্বরের সংযুক্তি.pdf</span>
+                                <span class="pull-right" style="margin-right: 5px;"><a href="/uploads/{{$application->vat_reg_no_attach}}" download="রভ্যাট েজিস্ট্রেশন নম্বরের সংযুক্তি" class="btn btn-dark">
+                            <span class="glyphicon glyphicon-save "></span> Download</a></span>
+                            </div>
+                        @else
+                            <div class="col-md-5">
+                                <img class="col-md-12" src="/uploads/{{$application->vat_reg_no_attach}}" alt="">
+                                <span class="pull-right" style="margin-right: 5px;"><a href="/uploads/{{$application->vat_reg_no_attach}}" download="ভ্যাট রেজিস্ট্রেশন নম্বরের সংযুক্তি" class="btn btn-dark">
+                                <span class="glyphicon glyphicon-save "></span> Download</a></span>
+                            </div>
+                        @endif
 
-                        <a href="{{ asset('/uploads/'.$application->vat_reg_no_attach) }}" download="হালনাগাদ কপি সংযুক্তি" class="btn btn-dark"><span class="glyphicon glyphicon-save"></span> Download</a></span></div>
+                    </div>
+
                 </div>
-
-            </div>
+            @endif
 
             <div class="row">
                 <div class="col-md-12">
@@ -207,14 +259,14 @@
                         @if($application->status == 0 && Auth::user()->role < 3)
                             <div class="form-group">
                                 <div >
-                                    <button type="submit" name="process" class="btn btn-primary">Process</button>
-                                    <button type="submit" name="reject" class="btn btn-danger">Reject</button>
+                                    <button style="width: 100px;" type="submit" name="process" class="btn btn-primary">Approve</button>
+                                    <button style="width: 100px;" type="submit" name="reject" class="btn btn-danger">Reject</button>
                                 </div>
                             </div>
                         @elseif($application->status == 1)
                             <div class="form-group">
                                 <div >
-                                    <i class="pull-right" style="color: green;">Processed on {{ date('F d, Y', strtotime($application->updated_at) ) }}</i>
+                                    <i class="pull-right" style="color: green;">Approved on {{ date('F d, Y', strtotime($application->updated_at) ) }}</i>
                                 </div>
                             </div>
                         @elseif($application->status == 2)

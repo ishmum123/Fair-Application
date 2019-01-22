@@ -15,6 +15,7 @@ class CreateApplicationsTable extends Migration
     {
         Schema::create('applications', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('district_id');
             $table->unsignedInteger('user_id');
             $table->string('festival_name');
             $table->unsignedInteger('festival_type');
@@ -31,8 +32,8 @@ class CreateApplicationsTable extends Migration
             $table->string('reg_no_attach');
             $table->string('tin_no');
             $table->string('tin_no_attach');
-            $table->string('vat_reg_no');
-            $table->string('vat_reg_no_attach');
+            $table->string('vat_reg_no')->nullable();
+            $table->string('vat_reg_no_attach')->nullable();
             $table->string('chaalan_no');
             $table->date('date');
             $table->string('bank_name');

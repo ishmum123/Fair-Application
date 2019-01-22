@@ -50,6 +50,8 @@
                     <small for="" style="color: red;">{{ $errors->first('email') }}</small>
                 @endif
 
+                {{--@foreach($errors->all() as $error)--}}
+                    {{--{{ $error }} @endforeach--}}
 
                 <div class="wrap-input100 validate-input m-b-18" data-validate = "Password is required">
                     <span class="label-input100">Password</span>

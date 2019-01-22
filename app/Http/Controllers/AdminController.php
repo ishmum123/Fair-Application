@@ -46,6 +46,7 @@ class AdminController extends Controller
     {
 
         $valid_attributes = request()->validate([
+            'district' => 'required|not_in:default',
             'name' => 'required|string|max:255',
             'email' =>'required|string|max:255|email|unique:users',
             'password' => 'required|string|min:6|confirmed'
@@ -54,10 +55,14 @@ class AdminController extends Controller
 
 
         $temp = new User;
+        $temp->district_id = $valid_attributes['district'];
         $temp->name = $valid_attributes['name'];
         $temp->email = $valid_attributes['email'];
         $temp->password = bcrypt($valid_attributes['password']);
         $temp->role = 2;
+        if($request['status'] == 'active')
+            $temp->is_active = 1;
+        else $temp->is_active = 0;
         $temp->save();
 
         return redirect('/admins');
@@ -92,9 +97,13 @@ class AdminController extends Controller
      * @param  \App\Admin  $admin
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Admin $admin)
+    public function update(Request $request, User $admin)
     {
-        //
+        if($request->has('changeStatus') ){
+            $admin->is_active = !$admin->is_active;
+            $admin->update();
+            return back();
+        }
     }
 
     /**

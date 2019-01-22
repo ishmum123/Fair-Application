@@ -2,27 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Info;
-use Auth;
-use App\Mail\confirmation;
+use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
-class InfoController extends Controller
+class UserPasswordChange extends Controller
 {
-
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     public function index()
     {
-
+        //
     }
 
     /**
@@ -32,7 +30,7 @@ class InfoController extends Controller
      */
     public function create()
     {
-
+        //
     }
 
     /**
@@ -43,39 +41,39 @@ class InfoController extends Controller
      */
     public function store(Request $request)
     {
-
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Info  $info
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Info $info)
+    public function show($id)
     {
-
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Info  $info
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Info $info)
+    public function edit($id)
     {
-
+        return view('info.change-password');
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Info  $info
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Info $info)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -83,10 +81,10 @@ class InfoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Info  $info
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Info $info)
+    public function destroy($id)
     {
         //
     }

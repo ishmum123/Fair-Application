@@ -9,6 +9,7 @@
             <tr>
                 <th>SL</th>
                 <th>Name</th>
+                <th>Status</th>
                 <th>View</th>
             </tr>
             </thead>
@@ -24,6 +25,10 @@
                     <td>
                         {{ $admin->name }}
 
+                    </td>
+
+                    <td>
+                        <button style="width: 60px;" type="button" class="{{ $admin->is_active ? 'btn btn-info btn-xs':'btn btn-warning btn-xs' }}">{{ $admin->is_active ? 'Active':'Inactive' }}</button>
                     </td>
 
                     <td >
