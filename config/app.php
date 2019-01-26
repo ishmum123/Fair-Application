@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://festivalbd.herokuapp.com'),
+    'url' => env('APP_URL', 'http://fair-min.herokuapp.com/'),
 
     'asset_url' => env('ASSET_URL', null),
 

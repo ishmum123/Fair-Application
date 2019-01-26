@@ -36,7 +36,7 @@ class ApplicationController extends Controller
 
         if($current_user_role == 1){
 
-            $div_dis_ins = DB::table('Districts')->select('id')->where('isDivision',1)->get();
+            $div_dis_ins = DB::table('districts')->select('id')->where('isDivision',1)->get();
             $divisional_districts = [];
             $index = 0;
             foreach ($div_dis_ins as $dis){
@@ -72,7 +72,7 @@ class ApplicationController extends Controller
 
         if($current_user_role == 1){
 
-            $div_dis_ins = DB::table('Districts')->select('id')->where('isDivision',1)->get();
+            $div_dis_ins = DB::table('districts')->select('id')->where('isDivision',1)->get();
             $divisional_districts = [];
             $index = 0;
             foreach ($div_dis_ins as $dis){
@@ -104,7 +104,7 @@ class ApplicationController extends Controller
 
         if($current_user_role == 1){
 
-            $div_dis_ins = DB::table('Districts')->select('id')->where('isDivision',1)->get();
+            $div_dis_ins = DB::table('districts')->select('id')->where('isDivision',1)->get();
             $divisional_districts = [];
             $index = 0;
             foreach ($div_dis_ins as $dis){
@@ -136,7 +136,7 @@ class ApplicationController extends Controller
 
         if($current_user_role == 1){
 
-            $div_dis_ins = DB::table('Districts')->select('id')->where('isDivision',1)->get();
+            $div_dis_ins = DB::table('districts')->select('id')->where('isDivision',1)->get();
             $divisional_districts = [];
             $index = 0;
             foreach ($div_dis_ins as $dis){

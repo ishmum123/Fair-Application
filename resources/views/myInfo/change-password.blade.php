@@ -23,7 +23,7 @@
         <div class="form-group">
             <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Password<span class="required">*</span></label>
             <div class="col-md-6 col-sm-6 col-xs-12">
-                <input id="middle-name" class="form-control col-md-7 col-xs-12" type="password" name="password" data-parsley-id="8197" required value="{{ old('password') }}"><ul class="parsley-errors-list" id="parsley-id-8197"></ul>
+                <input id="middle-name2" class="form-control col-md-7 col-xs-12" type="password" name="password" data-parsley-id="8197" required value="{{ old('password') }}"><ul class="parsley-errors-list" id="parsley-id-8197"></ul>
                 @if($errors->has('password'))
                     <small style="color: red;">{{ $errors->first('password') }}</small>
                 @endif
