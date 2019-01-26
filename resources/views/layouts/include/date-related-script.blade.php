@@ -12,7 +12,7 @@
             startDate: moment().subtract(29, 'days'),
             endDate: moment(),
             minDate: '01/01/2019',
-            maxDate: '12/31/2025',
+            maxDate: '10/31/2025',
             dateLimit: {
                 days: 60
             },

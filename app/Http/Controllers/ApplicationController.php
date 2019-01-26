@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\District;
 use App\Http\Middleware\redirct;
+use App\Mail\ApprovalMail;
 use App\Mail\confirmation;
+use App\Mail\RejectionlMail;
 use App\Models\Application;
 
 use Illuminate\Http\Request;
@@ -323,11 +325,17 @@ class ApplicationController extends Controller
         if($request->has('process')){
             $application->status = 1;
             $application->save();
+
+            $mail_receiver = DB::table('users')->where('id',$application->user_id)->first();
+            Mail::to($mail_receiver->email)->send( new ApprovalMail() );
         }
         if($request->has('reject')){
 
             $application->status = 2;
             $application->save();
+
+            $mail_receiver = DB::table('users')->where('id',$application->user_id)->first();
+            Mail::to($mail_receiver->email)->send( new RejectionlMail() );
         }
 
         return redirect('/applications');

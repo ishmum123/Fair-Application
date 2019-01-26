@@ -7,9 +7,8 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class confirmation extends Mailable
+class ApprovalMail extends Mailable
 {
-
     use Queueable, SerializesModels;
 
     /**
@@ -19,7 +18,7 @@ class confirmation extends Mailable
      */
     public function __construct()
     {
-        
+        //
     }
 
     /**
@@ -29,6 +28,6 @@ class confirmation extends Mailable
      */
     public function build()
     {
-        return $this->from('festival19.bd@gmail.com')->view('mail.confirmation')->subject('Application for fair is received');
+        return $this->from('festival19.bd@gmail.com')->view('mail.approval')->subject('Application for fair is Approved');
     }
 }
