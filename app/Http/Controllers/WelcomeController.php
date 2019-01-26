@@ -46,7 +46,7 @@ class WelcomeController extends Controller
     {
         $valid_attributes = request()->validate([
             'image_title' => 'required',
-            'image_location' => 'required|min:60',
+            'image_location' => 'required',
             'status' => 'required',
             'image_text' => 'required|min:15|max:4096'
         ]);
