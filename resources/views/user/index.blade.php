@@ -27,7 +27,7 @@
 
                     </td>
                     <td>
-                        <button style="width: 60px;" type="button" class="{{ $user->is_active ? 'btn btn-info btn-xs':'btn btn-warning btn-xs' }}">{{ $user->is_active ? 'Active':'Inactive' }}</button>
+                        <button style="width: 60px;" type="button" class="{{ $user->is_active ? 'btn btn-success btn-xs':'btn btn-warning btn-xs' }}">{{ $user->is_active ? 'Active':'Inactive' }}</button>
                     </td>
 
                     <td >

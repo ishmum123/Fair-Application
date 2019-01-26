@@ -9,6 +9,7 @@
             <tr>
                 <th>SL</th>
                 <th>Name</th>
+                <th>District</th>
                 <th>Status</th>
                 <th>View</th>
             </tr>
@@ -28,7 +29,15 @@
                     </td>
 
                     <td>
-                        <button style="width: 60px;" type="button" class="{{ $admin->is_active ? 'btn btn-info btn-xs':'btn btn-warning btn-xs' }}">{{ $admin->is_active ? 'Active':'Inactive' }}</button>
+                        @php
+                            $district_name = \Illuminate\Support\Facades\DB::table('districts')->where('id', $admin->district_id)->get();
+
+                        @endphp
+                        {{ $district_name[0]->name }}
+                    </td>
+
+                    <td>
+                        <button style="width: 60px;" type="button" class="{{ $admin->is_active ? 'btn btn-success btn-xs':'btn btn-warning btn-xs' }}">{{ $admin->is_active ? 'Active':'Inactive' }}</button>
                     </td>
 
                     <td >

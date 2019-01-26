@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Middleware\redirct;
 use http\Exception\BadConversionException;
 use Illuminate\Http\Request;
 use App\User;
@@ -77,11 +78,6 @@ class UserController extends Controller
         return view('user.show', compact('user'));
     }
 
-    public function myview(){
-        $user = Auth::user();
-        return view('info.myview',compact('user'));
-    }
-
 
     /**
      * Show the form for editing the specified resource.
@@ -94,9 +90,6 @@ class UserController extends Controller
         //
     }
 
-    public function changePassword(){
-        return view('info.change-password');
-    }
 
 
     /**
@@ -112,21 +105,13 @@ class UserController extends Controller
         if($request->has('changeStatus') ){
             $user->is_active = !$user->is_active;
             $user->update();
-            return back();
+            return redirect('/users');
         }
 
 
     }
 
-    public function update_pass(Request $request){
-        $valid = request()->validate([
-            'password' => 'required|string|min:6|confirmed'
 
-        ]);
-        Auth::user()->password = bcrypt($valid['password']);
-        Auth::user()->update();
-        return redirect('/myview');
-    }
 
     /**
      * Remove the specified resource from storage.

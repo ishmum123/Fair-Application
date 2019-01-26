@@ -50,7 +50,7 @@
                     <div class="col-md-5">
                         <div class="col-md-3"><h4 style="color: {{ $admin->is_active ? 'green':'red' }}">{{ $admin->is_active ? 'Active':'Inactive' }}</h4></div>
                         <div class="col-md-2">
-                        <form class="form-inline" action="/users/{{ $admin->id }}" method="post">
+                        <form class="form-inline" action="/admins/{{ $admin->id }}" method="post">
                             @csrf
                             @method('patch')
                             <button  class="{{ $admin->is_active ? 'btn btn-danger':'btn btn-primary' }}" type="submit" name="changeStatus">Click To {{ $admin->is_active ? 'Inactive':'Active' }}</button>

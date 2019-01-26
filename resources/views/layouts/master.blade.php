@@ -22,9 +22,9 @@
         </div>
         <div class="clearfix"></div>
 
-        <!-- menu prile quick info -->
+        <!-- menu prile quick myInfo -->
       @include('layouts.include.menu-prile')
-      <!-- /menu prile quick info -->
+      <!-- /menu prile quick myInfo -->
 
         <br />
 

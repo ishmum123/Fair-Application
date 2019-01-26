@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Admin;
+
 use App\User;
 use Illuminate\Http\Request;
 
@@ -102,7 +102,7 @@ class AdminController extends Controller
         if($request->has('changeStatus') ){
             $admin->is_active = !$admin->is_active;
             $admin->update();
-            return back();
+            return redirect('/admins');
         }
     }
 

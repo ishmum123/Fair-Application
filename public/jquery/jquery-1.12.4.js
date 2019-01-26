@@ -21,7 +21,7 @@
 		// (such as Node.js), expose a factory as module.exports.
 		// This accentuates the need for the creation of a real `window`.
 		// e.g. var jQuery = require("jquery")(window);
-		// See ticket #14549 for more info.
+		// See ticket #14549 for more myInfo.
 		module.exports = global.document ?
 			factory( global, true ) :
 			function( w ) {
@@ -4765,7 +4765,7 @@ function returnFalse() {
 }
 
 // Support: IE9
-// See #13393 for more info
+// See #13393 for more myInfo
 function safeActiveElement() {
 	try {
 		return document.activeElement;
@@ -4820,7 +4820,7 @@ function on( elem, types, selector, data, fn, one ) {
 		origFn = fn;
 		fn = function( event ) {
 
-			// Can use an empty set, since event contains the info
+			// Can use an empty set, since event contains the myInfo
 			jQuery().off( event );
 			return origFn.apply( this, arguments );
 		};
@@ -7191,7 +7191,7 @@ jQuery.each( [ "height", "width" ], function( i, name ) {
 		get: function( elem, computed, extra ) {
 			if ( computed ) {
 
-				// certain elements can have dimension info if we invisibly show them
+				// certain elements can have dimension myInfo if we invisibly show them
 				// however, it must have a current display style that would benefit from this
 				return rdisplayswap.test( jQuery.css( elem, "display" ) ) &&
 					elem.offsetWidth === 0 ?
@@ -10175,7 +10175,7 @@ var xhrId = 0,
 
 // Support: IE<10
 // Open requests must be manually aborted on unload (#5280)
-// See https://support.microsoft.com/kb/2856746 for more info
+// See https://support.microsoft.com/kb/2856746 for more myInfo
 if ( window.attachEvent ) {
 	window.attachEvent( "onunload", function() {
 		for ( var key in xhrCallbacks ) {

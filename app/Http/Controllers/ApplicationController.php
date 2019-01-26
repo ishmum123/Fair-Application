@@ -19,7 +19,7 @@ class ApplicationController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('checkSuper', ['only' => ['update']]);
+//        $this->middleware('checkSuper', ['only' => ['update']]);
         $this->middleware('checkAdmin', ['only' => ['update']]);
     }
     /**
@@ -29,23 +29,34 @@ class ApplicationController extends Controller
      */
     public function index()
     {
+        $identity = 'all';
         $applications = Application::all();
         $current_user = Auth::user();
         $current_user_role = Auth::user()->role;
 
         if($current_user_role == 1){
-            $applications = $applications->sortByDesc('created_at');
-            return view('application.index', compact('applications'));
+
+            $div_dis_ins = DB::table('Districts')->select('id')->where('isDivision',1)->get();
+            $divisional_districts = [];
+            $index = 0;
+            foreach ($div_dis_ins as $dis){
+                $divisional_districts[$index++] = $dis->id;
+            }
+
+            $divisional_applications = $applications->whereIn('district_id', $divisional_districts )->sortByDesc('created_at');
+            $non_divisional_applications = $applications->whereNotIn('district_id', $divisional_districts )->sortByDesc('created_at');
+
+            return view('application.index', compact(['divisional_applications','non_divisional_applications','identity']));
         }
 
         elseif($current_user_role == 2){
             $applications = $applications->where('district_id', $current_user->district_id)->sortByDesc('created_at');;
-            return view('application.index', compact('applications'));
+            return view('application.index', compact(['applications','identity']));
         }
 
         else{
             $applications = $applications->where('user_id', $current_user->id)->sortByDesc('created_at');
-            return view('application.index', compact('applications'));
+            return view('application.index', compact(['applications','identity']));
         }
 
 
@@ -54,24 +65,99 @@ class ApplicationController extends Controller
 
 
     public function approved(){
-        if(Auth::user()->role > 2) $applications = Application::all()->where( 'user_id', Auth::user()->id)
-                                                                    ->where('status', 1)->sortByDesc('updated_at');
-        else $applications = Application::all()->where('status', 1)->sortByDesc('updated_at');
-        return view('application.process', compact('applications'));
+        $identity = 'approved';
+        $applications = Application::all();
+        $current_user = Auth::user();
+        $current_user_role = Auth::user()->role;
+
+        if($current_user_role == 1){
+
+            $div_dis_ins = DB::table('Districts')->select('id')->where('isDivision',1)->get();
+            $divisional_districts = [];
+            $index = 0;
+            foreach ($div_dis_ins as $dis){
+                $divisional_districts[$index++] = $dis->id;
+            }
+
+            $divisional_applications = $applications->whereIn('district_id', $divisional_districts )->where('status',1)->sortByDesc('created_at');
+            $non_divisional_applications = $applications->whereNotIn('district_id', $divisional_districts )->where('status',1)->sortByDesc('created_at');
+
+            return view('application.index', compact(['divisional_applications','non_divisional_applications','identity']));
+        }
+
+        elseif($current_user_role == 2){
+            $applications = $applications->where('district_id', $current_user->district_id)->where('status',1)->sortByDesc('created_at');;
+            return view('application.index', compact(['applications','identity']));
+        }
+
+        else{
+            $applications = $applications->where('user_id', $current_user->id)->where('status',1)->sortByDesc('created_at');
+            return view('application.index', compact(['applications','identity']));
+        }
     }
 
     public function unapproved(){
-        if(Auth::user()->role > 2) $applications = Application::all()->where( 'user_id', Auth::user()->id)
-            ->where('status', 0)->sortByDesc('created_at');
-        else $applications = Application::all()->where('status', 0)->sortByDesc('created_at');
-        return view('application.unprocess', compact('applications'));
+        $identity = 'unapproved';
+        $applications = Application::all();
+        $current_user = Auth::user();
+        $current_user_role = Auth::user()->role;
+
+        if($current_user_role == 1){
+
+            $div_dis_ins = DB::table('Districts')->select('id')->where('isDivision',1)->get();
+            $divisional_districts = [];
+            $index = 0;
+            foreach ($div_dis_ins as $dis){
+                $divisional_districts[$index++] = $dis->id;
+            }
+
+            $divisional_applications = $applications->whereIn('district_id', $divisional_districts )->where('status',0)->sortByDesc('created_at');
+            $non_divisional_applications = $applications->whereNotIn('district_id', $divisional_districts )->where('status',0)->sortByDesc('created_at');
+
+            return view('application.index', compact(['divisional_applications','non_divisional_applications','identity']));
+        }
+
+        elseif($current_user_role == 2){
+            $applications = $applications->where('district_id', $current_user->district_id)->where('status',0)->sortByDesc('created_at');;
+            return view('application.index', compact(['applications','identity']));
+        }
+
+        else{
+            $applications = $applications->where('user_id', $current_user->id)->where('status',0)->sortByDesc('created_at');
+            return view('application.index', compact(['applications','identity']));
+        }
     }
 
     public function rejected(){
-        if(Auth::user()->role > 2) $applications = Application::all()->where( 'user_id', Auth::user()->id)
-            ->where('status', 2)->sortByDesc('updated_at');
-        else $applications = Application::all()->where('status', 2)->sortByDesc('updated_at');
-        return view('application.reject', compact('applications'));
+        $identity = 'rejected';
+        $applications = Application::all();
+        $current_user = Auth::user();
+        $current_user_role = Auth::user()->role;
+
+        if($current_user_role == 1){
+
+            $div_dis_ins = DB::table('Districts')->select('id')->where('isDivision',1)->get();
+            $divisional_districts = [];
+            $index = 0;
+            foreach ($div_dis_ins as $dis){
+                $divisional_districts[$index++] = $dis->id;
+            }
+
+            $divisional_applications = $applications->whereIn('district_id', $divisional_districts )->where('status',2)->sortByDesc('created_at');
+            $non_divisional_applications = $applications->whereNotIn('district_id', $divisional_districts )->where('status',2)->sortByDesc('created_at');
+
+            return view('application.index', compact(['divisional_applications','non_divisional_applications','identity']));
+        }
+
+        elseif($current_user_role == 2){
+            $applications = $applications->where('district_id', $current_user->district_id)->where('status',2)->sortByDesc('created_at');;
+            return view('application.index', compact(['applications','identity']));
+        }
+
+        else{
+            $applications = $applications->where('user_id', $current_user->id)->where('status',2)->sortByDesc('created_at');
+            return view('application.index', compact(['applications','identity']));
+        }
     }
 
     /**
@@ -190,6 +276,7 @@ class ApplicationController extends Controller
 
         $application->save();
 
+//        Confirmation mail to User
         $mail_receiver = DB::table('users')->where('id',$application->user_id)->first();
         Mail::to($mail_receiver->email)->send( new confirmation() );
 

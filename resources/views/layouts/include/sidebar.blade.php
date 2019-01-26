@@ -5,10 +5,10 @@
   <ul class="nav side-menu">
       <li><a><i class="fa fa-edit"></i> My Profile <span class="fa fa-chevron-down"></span></a>
           <ul class="nav child_menu" style="display: none">
-              <li><a href="/myview">View</a>
+              <li><a href="/myinfo">View</a>
               </li>
 
-              <li><a href="/change-password">Change Password</a>
+              <li><a href="/change-my-password">Change Password</a>
               </li>
           </ul>
       </li>
@@ -52,7 +52,7 @@
         </li>
         <li><a href="/applications-approved">Approved</a>
         </li>
-        <li><a href="/applications-unapproved">unapproved</a>
+        <li><a href="/applications-unapproved">Unapproved</a>
         </li>
         <li><a href="/applications-rejected">Rejected</a>
         </li>

@@ -1,8 +1,11 @@
 @extends('layouts.master')
 @section('content')
-    <form id="demo-form2"  class="form-horizontal form-label-left"  method="post" action="/change">
+
+    <form id="demo-form2"  class="form-horizontal form-label-left"  method="post" action="/myinfo">
         <h2>Change Password</h2>
         @csrf
+        @method('patch')
+        {{--@method('patch')--}}
 
         {{--<span>{{ \Illuminate\Support\Facades\Auth::user()->getAuthPassword() }}</span>--}}
 
@@ -41,7 +44,7 @@
         <div class="ln_solid"></div>
         <div class="form-group">
             <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                <a role="button" href="/myview" type="submit" class="btn btn-primary">Cancel</a>
+                <a role="button" href="/myinfo" type="submit" class="btn btn-primary">Cancel</a>
                 <button type="submit" class="btn btn-success" name="change">Submit</button>
             </div>
         </div>
