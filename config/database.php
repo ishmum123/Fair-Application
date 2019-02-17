@@ -42,11 +42,11 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            'host' => env('DB_HOST', 'db4free.net'),
+            'host' => env('DB_HOST', 'sql12.freemysqlhosting.net'),
             'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'myblogsimple2'),
-            'username' => env('DB_USERNAME', 'myblogsimple'),
-            'password' => env('DB_PASSWORD', 'myblogsimple'),
+            'database' => env('DB_DATABASE', 'sql12279423'),
+            'username' => env('DB_USERNAME', 'sql12279423'),
+            'password' => env('DB_PASSWORD', 'cfdyi35YK7'),
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
