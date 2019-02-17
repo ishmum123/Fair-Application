@@ -12,12 +12,14 @@
                     <form onsubmit="return validateForm()" name="myform"
                           class="form-horizontal form-label-left" method="post" action="/applications" enctype="multipart/form-data" >
                         @csrf
+                        {{--php calculation--}}
                         @php
                             $required_att = 'required';
                         @endphp
                         <span class="section">মেলা আয়োজনের অনুমোদনের জন্য অনলাইন আবেদন ফরম </span>
 
-                        @if( Auth::user()->role < 3)
+                        {{--User Selection--}}
+                        @if( Auth::user()->role != 'user')
                             <div class="item form-group">
                                 <label class="control-label col-md-3 col-sm-3 col-xs-12" for="users">আবেদনকারী <span class="">*</span></label>
 
@@ -43,6 +45,7 @@
                             </div>
                         @endif
 
+                        {{--District Selection Dropdown--}}
                         <div class="item form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="users">জেলা<span class="">*</span></label>
 
@@ -67,6 +70,7 @@
 
                         </div>
 
+                        {{--Fair Name--}}
                         <div class="item form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">মেলা/প্রদর্শনীর নাম<span class="">*</span>
                             </label>
@@ -78,20 +82,20 @@
                             </div>
                         </div>
 
+                        {{--Type of fair--}}
                         <div class="item form-group">
-
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">মেলার ধরণ<span class="">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
-                                <label class="radio-inline"><input {{ $required_att }}  type="radio" name="festival_type" value="national">দেশী</label>
-                                <label class="radio-inline"><input type="radio" name="festival_type" value="international">আন্তর্জাতিক</label>
+                                <label><input {{ $required_att }}  type="radio" name="festival_type" value="national">দেশী (মেলা আয়োজনের ফি ৫০০০/- (পাঁচ হাজার) টাকা)</label>
+                                <label><input type="radio" name="festival_type" value="international">আন্তর্জাতিক (মেলা আয়োজনের ফি ২০০ মার্কিন ডলারের  সমপরিমাণ টাকা )</label>
                                 <div>@if($errors->has('festival_type'))
                                         <small style="color: red;">{{ $errors->first('festival_type') }}</small>
                                     @endif </div>
                             </div>
-
                         </div>
 
+                        {{--Fair Duration--}}
                         <div class="item form-group">
 
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">মেলা/প্রদর্শনীর মেয়াদকাল <span class="">*</span>
@@ -111,7 +115,7 @@
                         </div>
 
 
-
+                        {{--Fair Place--}}
                         <div class="item form-group">
 
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">মেলা/প্রদর্শনীর স্থান<span class="">*</span>
@@ -123,8 +127,9 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="item form-group">
 
+                        {{--Fair Place attachment--}}
+                        <div class="item form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">স্থান বরাদ্দপত্র সংযুক্ত করতে হবে<span class="">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -135,70 +140,11 @@
                                     @endforeach
                                 @endif
                             </div>
-
-
                         </div>
 
+
+                        {{--Trade License of Company--}}
                         <div class="item form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">আবেদনকারী প্রতিষ্ঠান/সংগঠনের নাম<span class="">*</span>
-                            </label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input {{ $required_att }} id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="applicant_name"  type="text" value="{{ old('applicant_name') }}">
-                                @if($errors->has('applicant_name'))
-                                    <small style="color: red;">{{ $errors->first('applicant_name') }}</small>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="item form-group">
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">প্রতিষ্ঠান/সংগঠনের  ঠিকানা<span class="">*</span>
-                            </label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <textarea {{ $required_att }} id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="applicant_address">{{ old('applicant_address') }}</textarea>
-                                @if($errors->has('applicant_address'))
-                                    <small style="color: red;">{{ $errors->first('applicant_address') }}</small>
-                                @endif
-                            </div>
-
-                        </div>
-                        <div class="item form-group">
-
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">টেলিফোন নম্বর
-                            </label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input  class="form-control col-md-7 col-xs-12" id="tel" name="applicant_telephone" type="text" value="{{ old('applicant_telephone') }}">
-
-                                @if($errors->has('applicant_telephone'))
-                                    <small style="color: red;">{{ $errors->first('applicant_telephone') }}</small>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="item form-group">
-
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">মোবাইল নম্বর
-                            </label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input  class="form-control col-md-7 col-xs-12" id="mob" name="applicant_mobile"  type="text" value="{{ old('applicant_mobile') }}">
-                                @if($errors->has('applicant_mobile'))
-                                    <small style="color: red;">{{ $errors->first('applicant_mobile') }}</small>
-                                @endif
-                                <small id="hint" style="color: red;"></small>
-                            </div>
-
-                        </div>
-                        <div class="item form-group">
-
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">ইমেইল<span class="">*</span>
-                            </label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <input {{ $required_att }}  class="form-control col-md-7 col-xs-12" name="applicant_email" type="email" value="{{ old('applicant_email') }}">
-                                @if($errors->has('applicant_email'))
-                                    <small style="color: red;">{{ $errors->first('applicant_email') }}</small>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="item form-group">
-
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">কোম্পানি রেজি:নম্বর/ট্রেড লাইসেন্স<span class="">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -208,8 +154,9 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="item form-group">
 
+                        {{--Trade License attachment--}}
+                        <div class="item form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">হালনাগাদ কপি সংযুক্ত করতে হবে<span class="">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -222,8 +169,8 @@
                             </div>
                         </div>
 
+                        {{--Tin Certificate--}}
                         <div class="item form-group">
-
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">টিন সার্টিফিকেট ও আয়কর সার্টিফিকেট<span class="">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -233,8 +180,9 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="item form-group">
 
+                        {{--Tin Certificate attachment--}}
+                        <div class="item form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">হালনাগাদ কপি সংযুক্ত করতে হবে<span class="">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -247,8 +195,8 @@
                             </div>
                         </div>
 
+                        {{--Vat registration Number--}}
                         <div class="item form-group">
-
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">ভ্যাট রেজি:নম্বর<span class=""> (Optional)</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -258,8 +206,9 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="item form-group">
 
+                        {{--Vat registration Attachment--}}
+                        <div class="item form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">হালনাগাদ কপি সংযুক্ত করতে হবে<span class=""> (Optional)</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -272,8 +221,8 @@
                             </div>
                         </div>
 
+                        {{--Chaalan Number--}}
                         <div class="item form-group">
-
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">চালান নম্বর<span class="">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -282,10 +231,10 @@
                                     <small style="color: red;">{{ $errors->first('chaalan_no') }}</small>
                                 @endif
                             </div>
-
                         </div>
-                        <div class="item form-group">
 
+                        {{--Date--}}
+                        <div class="item form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">তারিখ<span class="">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -296,8 +245,9 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="item form-group">
 
+                        {{--Bank Name--}}
+                        <div class="item form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">ব্যাংকের নাম<span class="">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -307,8 +257,9 @@
                                 @endif
                             </div>
                         </div>
-                        <div class="item form-group">
 
+                        {{--Branch Name--}}
+                        <div class="item form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">শাখার নাম<span class="">*</span>
                             </label>
                             <div class="col-md-6 col-sm-6 col-xs-12">
@@ -318,22 +269,6 @@
                                 @endif
                             </div>
                         </div>
-
-                        <div class="item form-group">
-
-                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">চালান ( কোড নং-১১৭০১০০০১২৬৮১) জমাকৃত টাকার পরিমাণ<span class="">*</span>
-                            </label>
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <label><input {{ $required_att }} type="radio" name="fee_type" value="national_fee">স্থানীয় মেলা আয়োজনের ফি ৫০০০/- (পাঁচ হাজার) টাকা</label>
-                                <label><input type="radio" name="fee_type" value="international_fee">আন্তর্জাতিক মেলা আয়োজনের ফি ২০০ মার্কিন ডলারের  সমপরিমাণ টাকা </label>
-                                <div>@if($errors->has('fee_type'))
-                                        <small style="color: red;">{{ $errors->first('fee_type') }}</small>
-                                    @endif</div>
-                            </div>
-                        </div>
-
-
-
 
 
                         <div class="form-group">
@@ -351,26 +286,29 @@
 
 
 
-    @include('layouts.include.date-related-script')
+
+
+@endsection
+
+@push('scripts')
     <script type="text/javascript">
         function validateForm() {
             var id = true;
-            @if(\Illuminate\Support\Facades\Auth::user()->role < 3)
-                var u = document.forms["myform"]["user"].value;
+                    @if(\Illuminate\Support\Facades\Auth::user()->role != 'user')
+            var u = document.forms["myform"]["user"].value;
 
-                if(u == "default"){
-                    document.getElementById("uu").innerHTML = "Select an user";
-                    id = false;
-                }
-            @endif
-            var x = document.forms["myform"]["applicant_telephone"].value;
-            var y = document.forms["myform"]["applicant_mobile"].value;
-            if (x == "" && y == "") {
-                document.getElementById("hint").innerHTML = "Phone number or Telephone number must be filled up";
+            if(u == "default"){
+                document.getElementById("uu").innerHTML = "Select an user";
                 id = false;
             }
-            return id;
+            @endif
+
+                return id;
         }
+
     </script>
 
-@endsection
+    @include('layouts.include.date-related-script')
+
+@endpush
+

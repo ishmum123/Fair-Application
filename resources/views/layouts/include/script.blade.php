@@ -1,3 +1,7 @@
+@stack('datatables_library')
+@stack('scripts')
+
+
 <script src="{{ asset('js/bootstrap.min.js') }}"></script>
 
 <!-- bootstrap progress js -->
@@ -9,11 +13,16 @@
 <script src="{{ asset('js/custom.js') }}"></script>
 
 <!-- pace -->
-<script src="{{ asset('js/pace/pace.min.js') }}"></script>
+{{--<script src="{{ asset('js/pace/pace.min.js') }}"></script>--}}
 
 <!-- daterangepicker -->
 <script type="text/javascript" src="{{ asset('js/moment/moment.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('js/datepicker/daterangepicker.js') }}"></script>
 
 <!-- datepicker -->
+
+{{--DataTables Script--}}
+
+
+
 

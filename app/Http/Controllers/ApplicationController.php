@@ -15,6 +15,7 @@ use App\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 
+
 class ApplicationController extends Controller
 {
 
@@ -31,135 +32,27 @@ class ApplicationController extends Controller
      */
     public function index()
     {
-        $identity = 'all';
-        $applications = Application::all();
-        $current_user = Auth::user();
-        $current_user_role = Auth::user()->role;
-
-        if($current_user_role == 1){
-
-            $div_dis_ins = DB::table('districts')->select('id')->where('isDivision',1)->get();
-            $divisional_districts = [];
-            $index = 0;
-            foreach ($div_dis_ins as $dis){
-                $divisional_districts[$index++] = $dis->id;
-            }
-
-            $divisional_applications = $applications->whereIn('district_id', $divisional_districts )->sortByDesc('created_at');
-            $non_divisional_applications = $applications->whereNotIn('district_id', $divisional_districts )->sortByDesc('created_at');
-
-            return view('application.index', compact(['divisional_applications','non_divisional_applications','identity']));
-        }
-
-        elseif($current_user_role == 2){
-            $applications = $applications->where('district_id', $current_user->district_id)->sortByDesc('created_at');;
-            return view('application.index', compact(['applications','identity']));
-        }
-
-        else{
-            $applications = $applications->where('user_id', $current_user->id)->sortByDesc('created_at');
-            return view('application.index', compact(['applications','identity']));
-        }
-
+        $ajax_call = 'all';
+        return view('application.index', compact('ajax_call'));
 
     }
-
 
 
     public function approved(){
-        $identity = 'approved';
-        $applications = Application::all();
-        $current_user = Auth::user();
-        $current_user_role = Auth::user()->role;
 
-        if($current_user_role == 1){
-
-            $div_dis_ins = DB::table('districts')->select('id')->where('isDivision',1)->get();
-            $divisional_districts = [];
-            $index = 0;
-            foreach ($div_dis_ins as $dis){
-                $divisional_districts[$index++] = $dis->id;
-            }
-
-            $divisional_applications = $applications->whereIn('district_id', $divisional_districts )->where('status',1)->sortByDesc('created_at');
-            $non_divisional_applications = $applications->whereNotIn('district_id', $divisional_districts )->where('status',1)->sortByDesc('created_at');
-
-            return view('application.index', compact(['divisional_applications','non_divisional_applications','identity']));
-        }
-
-        elseif($current_user_role == 2){
-            $applications = $applications->where('district_id', $current_user->district_id)->where('status',1)->sortByDesc('created_at');;
-            return view('application.index', compact(['applications','identity']));
-        }
-
-        else{
-            $applications = $applications->where('user_id', $current_user->id)->where('status',1)->sortByDesc('created_at');
-            return view('application.index', compact(['applications','identity']));
-        }
+        $ajax_call = 'Approved';
+        return view('application.index', compact('ajax_call'));
     }
 
     public function unapproved(){
-        $identity = 'unapproved';
-        $applications = Application::all();
-        $current_user = Auth::user();
-        $current_user_role = Auth::user()->role;
 
-        if($current_user_role == 1){
-
-            $div_dis_ins = DB::table('districts')->select('id')->where('isDivision',1)->get();
-            $divisional_districts = [];
-            $index = 0;
-            foreach ($div_dis_ins as $dis){
-                $divisional_districts[$index++] = $dis->id;
-            }
-
-            $divisional_applications = $applications->whereIn('district_id', $divisional_districts )->where('status',0)->sortByDesc('created_at');
-            $non_divisional_applications = $applications->whereNotIn('district_id', $divisional_districts )->where('status',0)->sortByDesc('created_at');
-
-            return view('application.index', compact(['divisional_applications','non_divisional_applications','identity']));
-        }
-
-        elseif($current_user_role == 2){
-            $applications = $applications->where('district_id', $current_user->district_id)->where('status',0)->sortByDesc('created_at');;
-            return view('application.index', compact(['applications','identity']));
-        }
-
-        else{
-            $applications = $applications->where('user_id', $current_user->id)->where('status',0)->sortByDesc('created_at');
-            return view('application.index', compact(['applications','identity']));
-        }
+        $ajax_call = 'Unapproved';
+        return view('application.index', compact('ajax_call'));
     }
 
     public function rejected(){
-        $identity = 'rejected';
-        $applications = Application::all();
-        $current_user = Auth::user();
-        $current_user_role = Auth::user()->role;
-
-        if($current_user_role == 1){
-
-            $div_dis_ins = DB::table('districts')->select('id')->where('isDivision',1)->get();
-            $divisional_districts = [];
-            $index = 0;
-            foreach ($div_dis_ins as $dis){
-                $divisional_districts[$index++] = $dis->id;
-            }
-
-            $divisional_applications = $applications->whereIn('district_id', $divisional_districts )->where('status',2)->sortByDesc('created_at');
-            $non_divisional_applications = $applications->whereNotIn('district_id', $divisional_districts )->where('status',2)->sortByDesc('created_at');
-
-            return view('application.index', compact(['divisional_applications','non_divisional_applications','identity']));
-        }
-
-        elseif($current_user_role == 2){
-            $applications = $applications->where('district_id', $current_user->district_id)->where('status',2)->sortByDesc('created_at');;
-            return view('application.index', compact(['applications','identity']));
-        }
-
-        else{
-            $applications = $applications->where('user_id', $current_user->id)->where('status',2)->sortByDesc('created_at');
-            return view('application.index', compact(['applications','identity']));
-        }
+        $ajax_call = 'Rejected';
+        return view('application.index', compact('ajax_call'));
     }
 
     /**
@@ -170,8 +63,8 @@ class ApplicationController extends Controller
     public function create()
     {
 
-        if( Auth::user()->role < 3 ){
-            $applicants = User::all()->where('role',3);
+        if( Auth::user()->role != 'user' ){
+            $applicants = User::all()->where('role','user');
         }
         else $applicants = [];
 
@@ -188,7 +81,7 @@ class ApplicationController extends Controller
      */
     public function store(Request $request)
     {
-        if(Auth::user()->role == 3){
+        if(Auth::user()->role == 'user'){
             $request['user'] = Auth::user()->id;
         }
 
@@ -202,18 +95,12 @@ class ApplicationController extends Controller
             'festival_type' => 'required',
             'from-to' => 'required',
             'festival_place' => 'required',
-            'applicant_name' => 'required',
-            'applicant_address' => 'required',
-            'applicant_telephone' => 'required_without:applicant_mobile',
-            'applicant_mobile' => 'required_without:applicant_telephone',
-            'applicant_email' => 'required|email',
             'reg_no' => 'required',
             'tin_no' => 'required',
             'chaalan_no' => 'required',
             'date' => 'required',
             'bank_name' => 'required',
             'branch_name' => 'required',
-            'fee_type' => 'required',
             'tin_no_attach' => ['required','mimes:jpeg,jpg,png,gif,pdf',$img_max_size],
             'reg_no_attach' => ['required','mimes:jpeg,jpg,png,gif,pdf',$img_max_size],
             'festival_place_attach' => ['required','mimes:jpeg,jpg,png,gif,pdf',$img_max_size],
@@ -221,6 +108,7 @@ class ApplicationController extends Controller
 
 
         ]);
+
 
         $from_date = str_before($request['from-to'],'-');
         $to_date = str_after($request['from-to'],'-');
@@ -230,13 +118,6 @@ class ApplicationController extends Controller
         $to_date = date('Y-m-d',strtotime($to_date) );
 
         $valid['date'] = date('Y-m-d',strtotime($valid['date']) );
-
-
-        if($valid['fee_type'] == 'international_fee') $valid['fee_type'] = 1;
-        else $valid['fee_type'] = 0;
-
-        if($valid['festival_type'] == 'international') $valid['festival_type'] = 1;
-        else $valid['festival_type'] = 0;
 
         $valid['festival_place_attach'] = $request->file('festival_place_attach')->store('applications_files');
         $valid['reg_no_attach'] = $request->file('reg_no_attach')->store('applications_files');
@@ -256,11 +137,6 @@ class ApplicationController extends Controller
         $application->to = $to_date;
         $application->festival_place = $valid['festival_place'];
         $application->festival_place_attach = $valid['festival_place_attach'];
-        $application->applicant_name = $valid['applicant_name'];
-        $application->applicant_address = $valid['applicant_address'];
-        $application->applicant_telephone = $valid['applicant_telephone'];
-        $application->applicant_mobile = $valid['applicant_mobile'];
-        $application->applicant_email = $valid['applicant_email'];
         $application->reg_no = $valid['reg_no'];
         $application->reg_no_attach = $valid['reg_no_attach'];
         $application->tin_no = $valid['tin_no'];
@@ -273,8 +149,9 @@ class ApplicationController extends Controller
         $application->date = $valid['date'];
         $application->bank_name = $valid['bank_name'];
         $application->branch_name = $valid['branch_name'];
-        $application->fee_type = $valid['fee_type'];
-        $application->status = 0;
+        $application->status = 'Unapproved';
+
+
 
         $application->save();
 
@@ -296,8 +173,8 @@ class ApplicationController extends Controller
     public function show(Application $application)
     {
         $current_user = Auth::user();
-        abort_if($current_user->role == 2 && $application->district_id != $current_user->district_id, 403);
-        abort_if($current_user->role == 3 && $application->user_id != $current_user->id, 403);
+        abort_if($current_user->role == 'admin' && $application->district_id != $current_user->district_id, 403);
+        abort_if($current_user->role == 'user' && $application->user_id != $current_user->id, 403);
         return view('application.show', compact('application'));
     }
 
@@ -323,7 +200,7 @@ class ApplicationController extends Controller
     {
 
         if($request->has('process')){
-            $application->status = 1;
+            $application->status = 'Approved';
             $application->save();
 
             $mail_receiver = DB::table('users')->where('id',$application->user_id)->first();
@@ -331,7 +208,7 @@ class ApplicationController extends Controller
         }
         if($request->has('reject')){
 
-            $application->status = 2;
+            $application->status = 'Rejected';
             $application->save();
 
             $mail_receiver = DB::table('users')->where('id',$application->user_id)->first();

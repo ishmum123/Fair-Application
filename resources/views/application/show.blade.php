@@ -4,6 +4,8 @@
     <div class="panel panel-info" style="margin: 60px;">
         <div class="page-header" style="text-align: center"><h1>আবেদন ফরম বিবরণী </h1></div>
         <div class="panel-body">
+
+            {{--Applicant name--}}
             <div class="row">
                 <div class="col-md-12">
                     <div class="col-md-4" style="text-align: right;"><label for="name" >আবেদনকারী</label></div>
@@ -28,11 +30,12 @@
                 </div>
             </div>
 
+            {{--Fair Type--}}
             <div class="row">
                 <div class="col-md-12">
                     <div class="col-md-4" style="text-align: right;" ><label for="name" >মেলার ধরণ</label></div>
                     <div class="col-md-1">--</div>
-                    <div class="col-md-7"><p for="name">{{ $application->festival_type ? 'দেশী':'আন্তর্জাতিক' }}</p></div>
+                    <div class="col-md-7"><p for="name">{{ $application->festival_type == 'national' ? 'দেশী [ ফি ৫০০০/- (পাঁচ হাজার) টাকা ]':'আন্তর্জাতিক [ ফি ২০০ মার্কিন ডলারের  সমপরিমাণ টাকা  ]' }}</p></div>
                 </div>
                 <div class="col-md-12">
                     <div class="col-md-4" style="text-align: right;"><label for="name">মেলা/প্রদর্শনীর মেয়াদকাল</label></div>
@@ -41,7 +44,7 @@
                 </div>
             </div>
 
-            {{--Name with attachment--}}
+            {{--Fair Place name--}}
             <div class="row">
                 <div class="col-md-12">
                     <div class="col-md-4" style="text-align: right;" ><label for="name" >মেলা/প্রদর্শনীর স্থান</label></div>
@@ -50,6 +53,8 @@
                 </div>
 
             </div>
+
+            {{--Fest place attachment--}}
             <div class="row">
                 <div class="col-md-12">
                     <div class="col-md-4" style="text-align: right;"><label for="name" >হালনাগাদ কপি সংযুক্তি</label></div>
@@ -74,7 +79,7 @@
                 </div>
             </div>
 
-            {{--Name with attachment--}}
+            {{--Organization name and address--}}
 
             <div class="row">
                 <div class="col-md-12">
@@ -89,25 +94,10 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="col-md-4" style="text-align: right;" ><label for="name" >টেলিফোন নম্বর</label></div>
-                    <div class="col-md-1">--</div>
-                    <div class="col-md-7"><p for="name">{{ $application->applicant_telephone ? $application->applicant_telephone:'Not Available' }}</p></div>
-                </div>
-                <div class="col-md-12">
-                    <div class="col-md-4" style="text-align: right;"><label for="name">মোবাইল নম্বর</label></div>
-                    <div class="col-md-1">--</div>
-                    <div class="col-md-7"><p>{{ $application->applicant_mobile ? $application->applicant_mobile:'Not Available' }}</p></div>
-                </div>
-            </div>
 
+
+            {{--Trade license--}}
             <div class="row">
-                <div class="col-md-12">
-                    <div class="col-md-4" style="text-align: right;" ><label for="name" >ইমেইল</label></div>
-                    <div class="col-md-1">--</div>
-                    <div class="col-md-7"><p for="name">{{ $application->applicant_email }}</p></div>
-                </div>
                 <div class="col-md-12">
                     <div class="col-md-4" style="text-align: right;"><label for="name">কোম্পানি রেজি:নম্বর/ট্রেড লাইসেন্স</label></div>
                     <div class="col-md-1">--</div>
@@ -115,6 +105,7 @@
                 </div>
             </div>
 
+            {{--Trade license attachment--}}
             <div class="row">
                 <div class="col-md-12">
                     <div class="col-md-4" style="text-align: right;" ><label for="name" >হালনাগাদ কপি সংযুক্তি</label></div>
@@ -137,7 +128,7 @@
             </div>
 
 
-
+            {{--Tin Certificate--}}
             <div class="row">
                 <div class="col-md-12">
                     <div class="col-md-12">
@@ -149,7 +140,7 @@
 
             </div>
 
-
+            {{--Tin certificate attachment--}}
             <div class="row">
                 <div class="col-md-12">
                     <div class="col-md-4" style="text-align: right;" ><label for="name" >হালনাগাদ কপি সংযুক্তি</label></div>
@@ -171,6 +162,8 @@
                 </div>
 
             </div>
+
+            {{--Vat reg number (optional)--}}
             @if($application->vat_reg_no != null)
                 <div class="row">
                     <div class="col-md-12">
@@ -184,7 +177,7 @@
                 </div>
             @endif
 
-
+            {{--Vat registration attachment (Optional)--}}
             @if($application->vat_reg_no_attach != null)
                 <div class="row">
                     <div class="col-md-12">
@@ -209,20 +202,16 @@
                 </div>
             @endif
 
+            {{--Chaalan Number--}}
             <div class="row">
                 <div class="col-md-12">
                     <div class="col-md-4" style="text-align: right;" ><label for="name">চালান নম্বর</label></div>
                     <div class="col-md-1">--</div>
                     <div class="col-md-7"><p>{{ $application->chaalan_no }}</p></div>
                 </div>
-                <div class="col-md-12">
-                    <div class="col-md-4"  style="text-align: right;"><label for="name" >তারিখ</label></div>
-                    <div class="col-md-1">--</div>
-                    <div class="col-md-7"><p>{{ date('F d, Y', strtotime($application->date)) }}</p></div>
-                </div>
 
             </div>
-
+            {{--Bank and Branch Name--}}
             <div class="row">
                 <div class="col-md-12">
                     <div class="col-md-4" style="text-align: right;" ><label for="name">ব্যাংকের নাম</label></div>
@@ -236,16 +225,7 @@
                 </div>
 
             </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="col-md-12">
-                        <div class="col-md-4" style="text-align: right;"><label for="name">চালান ( কোড নং-১১৭০১০০০১২৬৮১) জমাকৃত টাকার পরিমাণ</label></div>
-                        <div class="col-md-1">--</div>
-                        <div class="col-md-7"><p>{{ $application->fee_type ?
-                                'ফি ৫০০০/- (পাঁচ হাজার) টাকা':'ফি ২০০ মার্কিন ডলারের  সমপরিমাণ টাকা ' }}</p></div>
-                    </div>
-                </div>
-            </div>
+
 
         </div>
         <div class="panel-footer">
@@ -256,20 +236,20 @@
                         @csrf
                         @method('patch')
 
-                        @if($application->status == 0 && Auth::user()->role < 3)
+                        @if($application->status == 'Unapproved' && Auth::user()->role != 'user')
                             <div class="form-group">
                                 <div >
                                     <button style="width: 100px;" type="submit" name="process" class="btn btn-primary">Approve</button>
                                     <button style="width: 100px;" type="submit" name="reject" class="btn btn-danger">Reject</button>
                                 </div>
                             </div>
-                        @elseif($application->status == 1)
+                        @elseif($application->status == 'Approved')
                             <div class="form-group">
                                 <div >
                                     <i class="pull-right" style="color: green;">Approved on {{ date('F d, Y', strtotime($application->updated_at) ) }}</i>
                                 </div>
                             </div>
-                        @elseif($application->status == 2)
+                        @elseif($application->status == 'Rejected')
                             <div class="form-group">
                                 <div >
                                     <i class="pull-right" style="color: red;">Rejected on {{ date('F d, Y', strtotime($application->updated_at) ) }}</i>
@@ -278,7 +258,7 @@
                         @else
                             <div class="form-group">
                                 <div >
-                                    <i class="pull-right" style="color: #4b3e03">Unprocess, Created on {{ date('F d, Y', strtotime($application->created_at) ) }}</i>
+                                    <i class="pull-right" style="color: #4b3e03">Unapproved, Created on {{ date('F d, Y', strtotime($application->created_at) ) }}</i>
                                 </div>
                             </div>
                         @endif

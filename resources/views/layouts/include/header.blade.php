@@ -12,6 +12,8 @@
   <!-- <link href="css/bootstrap.min.css" rel="stylesheet"> -->
   <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
 
+
+
   <link href="{{ asset('fonts/css/font-awesome.min.css') }}" rel="stylesheet">
   <link href="{{ asset('css/animate.min.css') }}" rel="stylesheet">
 
@@ -19,6 +21,9 @@
   <link rel="stylesheet" href="{{ asset('jquery/jquery-ui.css') }}">
   {{--<link rel="stylesheet" href="/resources/demos/style.css">--}}
   {{--My added--}}
+
+  {{--DataTables CSS--}}
+  <link rel="stylesheet" href="//cdn.datatables.net/1.10.7/css/jquery.dataTables.min.css">
 
 
 
