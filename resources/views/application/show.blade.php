@@ -85,12 +85,12 @@
                 <div class="col-md-12">
                     <div class="col-md-4" style="text-align: right;" ><label for="name" >আবেদনকারী প্রতিষ্ঠান/সংগঠনের নাম</label></div>
                     <div class="col-md-1">--</div>
-                    <div class="col-md-7"><p for="name">{{ $application->applicant_name }}</p></div>
+                    <div class="col-md-7"><p for="name">{{ $applicant[0]->organization_name }}</p></div>
                 </div>
                 <div class="col-md-12">
                     <div class="col-md-4" style="text-align: right;"><label for="name">প্রতিষ্ঠান/সংগঠনের  ঠিকানা</label></div>
                     <div class="col-md-1">--</div>
-                    <div class="col-md-7"><p>{{ $application->applicant_address }}</p></div>
+                    <div class="col-md-7"><p>{{ $applicant[0]->organization_address }}</p></div>
                 </div>
             </div>
 
@@ -230,19 +230,36 @@
         </div>
         <div class="panel-footer">
 
-
-
-                    <form  class="form-horizontal text-center form-label-left" method="post" action="/applications/{{$application->id}}" >
-                        @csrf
-                        @method('patch')
-
                         @if($application->status == 'Unapproved' && Auth::user()->role != 'user')
-                            <div class="form-group">
-                                <div >
-                                    <button style="width: 100px;" type="submit" name="process" class="btn btn-primary">Approve</button>
-                                    <button style="width: 100px;" type="submit" name="reject" class="btn btn-danger">Reject</button>
+                            <div class="row" id="process_line">
+                                <div class="col-md-6"><a class="btn btn-info form-control" role="button" onclick="showContent()">Process</a></div>
+                                <div class="col-md-6">
+                                    <form method="post" action="/applications/{{$application->id}}">
+                                        @csrf
+                                        @method('patch')
+                                        <button type="submit" name="reject" class="btn btn-danger form-control">Reject</button>
+                                    </form>
                                 </div>
                             </div>
+
+
+                            <form method="post" action="/applications/{{$application->id}}" id="form_body" style="display: none">
+                                <h3 class="text-center" style="color: darkslategray">You can customize your Email body and send attachment Otherwise default email will be send as
+                                approval notification</h3>
+                                @csrf
+                                @method('patch')
+
+                                <div class="form-group">
+                                    <label for="email_body">Email Body</label>
+                                    <textarea class="form-control"  name="email_body"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="file">Attachment</label>
+                                    <input type="file" name="email_attach">
+                                </div>
+                                <button type="submit" name="process" class="btn btn-success">Approve</button>
+                                <a class="btn btn-default" onclick="hideContent()">Close</a>
+                            </form>
                         @elseif($application->status == 'Approved')
                             <div class="form-group">
                                 <div >
@@ -265,7 +282,7 @@
 
 
 
-                    </form>
+
 
 
             </div>
@@ -275,3 +292,16 @@
     </div>
 
 @endsection
+
+@push('scripts')
+    <script type="text/javascript">
+    function showContent(){
+        document.getElementById("form_body").style.display = 'block';
+        document.getElementById("process_line").style.display = 'none';
+    }
+    function hideContent() {
+        document.getElementById("form_body").style.display = 'none';
+        document.getElementById("process_line").style.display = 'block';
+    }
+    </script>
+@endpush

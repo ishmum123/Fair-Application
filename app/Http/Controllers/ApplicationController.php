@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use App\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use phpDocumentor\Reflection\Types\String_;
 
 
 class ApplicationController extends Controller
@@ -204,7 +205,7 @@ class ApplicationController extends Controller
             $application->save();
 
             $mail_receiver = DB::table('users')->where('id',$application->user_id)->first();
-            Mail::to($mail_receiver->email)->send( new ApprovalMail() );
+            Mail::to($mail_receiver->email)->send( new ApprovalMail( $request['email_body'], $request['email_attach']) );
         }
         if($request->has('reject')){
 
