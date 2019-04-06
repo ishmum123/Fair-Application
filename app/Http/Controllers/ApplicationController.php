@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Codedge\Fpdf\Fpdf\Fpdf;
 
 
 class ApplicationController extends Controller
@@ -225,5 +226,19 @@ class ApplicationController extends Controller
     public function destroy(Application $application)
     {
         //
+    }
+
+    /**
+     * Get a PDF Version of the Application Data
+     *
+     * @param  \App\Application  $application
+     * @return void
+     */
+    public function getPdf(Application $application, Fpdf $fpdf) {
+        $fpdf->AddPage();
+        $fpdf->SetFont('Courier', 'B', 18);
+        $fpdf->Cell(50, 25, $application->festival_name);
+        $fpdf->Output();
+        exit();
     }
 }
