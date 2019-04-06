@@ -300,7 +300,36 @@
                             </div>
                         @else
                             <div class="col-md-5">
-                                <img class="col-md-12" src="/uploads/{{$application->vat_reg_no_attach}}" alt="">
+                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                        data-target=".bs-vat-registration-modal-lg">
+                                    <span class="glyphicon glyphicon-eye-open"></span> View
+                                </button>
+
+                                <div class="modal fade bs-vat-registration-modal-lg in" tabindex="-1" role="dialog"
+                                     aria-hidden="true" style="display: none">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal"><span
+                                                            aria-hidden="true">×</span>
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel">ভ্যাট রেজিস্ট্রেশন নম্বরের
+                                                    সংযুক্তি</h4>
+                                            </div>
+                                            <div class="modal-body row">
+                                                <img class="col-md-10 col-md-offset-1"
+                                                     src="/uploads/{{$application->vat_reg_no_attach}}"
+                                                     alt="registration-attachment">
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                    Close
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <span class="pull-right" style="margin-right: 5px;"><a
                                             href="/uploads/{{$application->vat_reg_no_attach}}"
                                             download="ভ্যাট রেজিস্ট্রেশন নম্বরের সংযুক্তি" class="btn btn-dark">
@@ -342,7 +371,10 @@
 
             @if($application->status == 'Unapproved' && Auth::user()->role != 'user')
                 <div class="row" id="process_line">
-                    <button class="btn btn-success col-md-6" type="button" onclick="showContent()">Process</button>
+                    <button class="btn btn-success col-md-6" type="button" data-toggle="modal"
+                            data-target=".bs-confirmation-mail-modal-lg">
+                        Process
+                    </button>
                     <form method="post" action="/applications/{{$application->id}}" class="col-md-6 row">
                         @csrf
                         @method('patch')
@@ -350,25 +382,43 @@
                     </form>
                 </div>
 
-
-                <form method="post" action="/applications/{{$application->id}}" id="form_body" style="display: none">
-                    <h3 class="text-center" style="color: darkslategray">You can customize your Email body and send
-                        attachment Otherwise default email will be send as
-                        approval notification</h3>
-                    @csrf
-                    @method('patch')
-
-                    <div class="form-group">
-                        <label for="email_body">Email Body</label>
-                        <textarea class="form-control" name="email_body"></textarea>
+                <div class="modal fade bs-confirmation-mail-modal-lg in" tabindex="-1" role="dialog"
+                     aria-hidden="true" style="display: none">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <form method="post" action="/applications/{{$application->id}}" id="form_body">
+                                @csrf
+                                @method('patch')
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span
+                                                aria-hidden="true">×</span>
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel">
+                                        Customise Email (Default Email will be Sent on Empty Text)
+                                    </h4>
+                                </div>
+                                <div class="modal-body">
+                                    <h3 class="text-center" style="color: darkslategray"></h3>
+                                    <div class="form-group">
+                                        <label for="email_body">Email Text</label>
+                                        <textarea class="form-control" name="email_body"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="file">Attachment</label>
+                                        <input type="file" name="email_attach">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" name="process" class="btn btn-success pull-left">
+                                        Approve
+                                    </button>
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="file">Attachment</label>
-                        <input type="file" name="email_attach">
-                    </div>
-                    <button type="submit" name="process" class="btn btn-success">Approve</button>
-                    <a class="btn btn-default" onclick="hideContent()">Close</a>
-                </form>
+                </div>
+
             @elseif($application->status == 'Approved')
                 <div class="form-group">
                     <div>
@@ -400,17 +450,3 @@
     </div>
 
 @endsection
-
-@push('scripts')
-    <script type="text/javascript">
-        function showContent() {
-            document.getElementById("form_body").style.display = 'block';
-            document.getElementById("process_line").style.display = 'none';
-        }
-
-        function hideContent() {
-            document.getElementById("form_body").style.display = 'none';
-            document.getElementById("process_line").style.display = 'block';
-        }
-    </script>
-@endpush

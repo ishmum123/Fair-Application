@@ -154,8 +154,8 @@ class ApplicationController extends Controller
         $application->save();
 
 //        Confirmation mail to User
-        $mail_receiver = DB::table('users')->where('id',$application->user_id)->first();
-        Mail::to($mail_receiver->email)->send( new Confirmation() );
+//        $mail_receiver = DB::table('users')->where('id',$application->user_id)->first();
+//        Mail::to($mail_receiver->email)->send( new Confirmation() );
 
         return redirect('/applications');
 
