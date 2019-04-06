@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\District;
+use App\Models\District;
 use App\Http\Middleware\redirct;
 use App\Mail\ApprovalMail;
 use App\Mail\confirmation;
@@ -11,7 +11,7 @@ use App\Models\Application;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\User;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use phpDocumentor\Reflection\Types\String_;

@@ -6,7 +6,7 @@ use App\Http\Middleware\redirct;
 use Carbon\Carbon;
 use http\Exception\BadConversionException;
 use Illuminate\Http\Request;
-use App\User;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;

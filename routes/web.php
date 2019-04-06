@@ -7,9 +7,9 @@ Route::get('/', function () {
     return view('home.welcome');
 })->middleware('guest');
 Auth::routes();
-Route::get('/myinfo','MyInfoController@showMyInfo');
-Route::get('/change-my-password','MyInfoController@change_pass_form');
-Route::patch('/myinfo','MyInfoController@update_my_pass');
+Route::get('/myinfo','ProfileController@showMyInfo');
+Route::get('/change-my-password','ProfileController@change_pass_form');
+Route::patch('/myinfo','ProfileController@update_my_pass');
 Route::resource('welcomes','WelcomeController');
 Route::resource('admins', 'AdminController');
 Route::resource('users','UserController');

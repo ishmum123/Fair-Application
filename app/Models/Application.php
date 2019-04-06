@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\District;
-use App\User;
+use App\Models\District;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Application extends Model
