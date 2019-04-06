@@ -2,19 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\District;
-use App\Http\Middleware\redirct;
 use App\Mail\ApprovalMail;
-use App\Mail\confirmation;
+use App\Mail\Confirmation;
 use App\Mail\RejectionlMail;
 use App\Models\Application;
-
+use App\Models\District;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
-use phpDocumentor\Reflection\Types\String_;
 
 
 class ApplicationController extends Controller
@@ -158,7 +155,7 @@ class ApplicationController extends Controller
 
 //        Confirmation mail to User
         $mail_receiver = DB::table('users')->where('id',$application->user_id)->first();
-        Mail::to($mail_receiver->email)->send( new confirmation() );
+        Mail::to($mail_receiver->email)->send( new Confirmation() );
 
         return redirect('/applications');
 

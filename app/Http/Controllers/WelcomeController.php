@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Middleware\redirct;
 use App\Models\Welcome;
 use Illuminate\Http\Request;
 

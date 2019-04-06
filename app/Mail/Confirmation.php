@@ -7,9 +7,9 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class mymail extends Mailable
+class Confirmation extends Mailable
 {
-    public $title;
+
     use Queueable, SerializesModels;
 
     /**
@@ -17,9 +17,9 @@ class mymail extends Mailable
      *
      * @return void
      */
-    public function __construct($title)
+    public function __construct()
     {
-        $this->title = $title;
+        
     }
 
     /**
@@ -29,6 +29,6 @@ class mymail extends Mailable
      */
     public function build()
     {
-        return $this->from('dummy@gmail.com')->view('mail.mymail');
+        return $this->from('festival19.bd@gmail.com')->view('mail.confirmation')->subject('Application for fair is received');
     }
 }

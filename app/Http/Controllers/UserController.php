@@ -2,12 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Middleware\redirct;
-use Carbon\Carbon;
-use http\Exception\BadConversionException;
-use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
 
