@@ -11,9 +11,9 @@
                     <div class="col-md-4" style="text-align: right;"><label for="name">আবেদনকারী</label></div>
                     <div class="col-md-1">--</div>
                     @php
-                        $applicant = \Illuminate\Support\Facades\DB::table('users')->where('id',$application->user_id)->get();
+                        $applicant = DB::table('users')->where('id',$application->user_id)->first();
                     @endphp
-                    <div class="col-md-7"><p for="name">{{ $applicant[0]->name }}</p></div>
+                    <div class="col-md-7"><p for="name">{{ $applicant->name }}</p></div>
                 </div>
                 <div class="col-md-12">
                     <div class="col-md-4" style="text-align: right;"><label for="name">মেলা/প্রদর্শনীর নাম</label></div>
@@ -123,13 +123,13 @@
                     <div class="col-md-4" style="text-align: right;"><label for="name">আবেদনকারী প্রতিষ্ঠান/সংগঠনের
                             নাম</label></div>
                     <div class="col-md-1">--</div>
-                    <div class="col-md-7"><p for="name">{{ $applicant[0]->organization_name }}</p></div>
+                    <div class="col-md-7"><p for="name">{{ $applicant->organization_name }}</p></div>
                 </div>
                 <div class="col-md-12">
                     <div class="col-md-4" style="text-align: right;"><label for="name">প্রতিষ্ঠান/সংগঠনের ঠিকানা</label>
                     </div>
                     <div class="col-md-1">--</div>
-                    <div class="col-md-7"><p>{{ $applicant[0]->organization_address }}</p></div>
+                    <div class="col-md-7"><p>{{ $applicant->organization_address }}</p></div>
                 </div>
             </div>
 
@@ -295,7 +295,7 @@
                                 <span for="">ভ্যাট রেজিস্ট্রেশন নম্বরের সংযুক্তি.pdf</span>
                                 <span class="pull-right" style="margin-right: 5px;"><a
                                             href="/uploads/{{$application->vat_reg_no_attach}}"
-                                            download="রভ্যাট েজিস্ট্রেশন নম্বরের সংযুক্তি" class="btn btn-dark">
+                                            download="ভ্যাট রেজিস্ট্রেশন নম্বরের সংযুক্তি" class="btn btn-dark">
                             <span class="glyphicon glyphicon-save "></span> Download</a></span>
                             </div>
                         @else
@@ -370,17 +370,21 @@
         <div class="panel-footer">
 
             @if($application->status == 'Unapproved' && Auth::user()->role != 'user')
-                <div class="row" id="process_line">
-                    <button class="btn btn-success col-md-6" type="button" data-toggle="modal"
+                <form method="post" action="/applications/{{$application->id}}" class="row">
+                    @csrf
+                    @method('patch')
+
+                    <a href="/applications/get-zip/{{$application->id}}" class="btn btn-dark col-md-1">
+                        <span class="glyphicon glyphicon-save "></span>
+                    </a>
+
+                    <button class="btn btn-success col-md-4 col-md-offset-2" type="button" data-toggle="modal"
                             data-target=".bs-confirmation-mail-modal-lg">
                         Process
                     </button>
-                    <form method="post" action="/applications/{{$application->id}}" class="col-md-6 row">
-                        @csrf
-                        @method('patch')
-                        <button type="button" name="reject" class="btn btn-danger col-md-12">Reject</button>
-                    </form>
-                </div>
+
+                    <button type="button" name="reject" class="btn btn-danger col-md-4">Reject</button>
+                </form>
 
                 <div class="modal fade bs-confirmation-mail-modal-lg in" tabindex="-1" role="dialog"
                      aria-hidden="true" style="display: none">

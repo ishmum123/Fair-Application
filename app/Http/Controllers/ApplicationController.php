@@ -8,11 +8,11 @@ use App\Mail\RejectionlMail;
 use App\Models\Application;
 use App\Models\District;
 use App\Models\User;
+use Codedge\Fpdf\Fpdf\Fpdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
-use Codedge\Fpdf\Fpdf\Fpdf;
 
 
 class ApplicationController extends Controller
@@ -24,6 +24,7 @@ class ApplicationController extends Controller
 //        $this->middleware('checkSuper', ['only' => ['update']]);
         $this->middleware('checkAdmin', ['only' => ['update']]);
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -37,19 +38,22 @@ class ApplicationController extends Controller
     }
 
 
-    public function approved(){
+    public function approved()
+    {
 
         $ajax_call = 'Approved';
         return view('application.index', compact('ajax_call'));
     }
 
-    public function unapproved(){
+    public function unapproved()
+    {
 
         $ajax_call = 'Unapproved';
         return view('application.index', compact('ajax_call'));
     }
 
-    public function rejected(){
+    public function rejected()
+    {
         $ajax_call = 'Rejected';
         return view('application.index', compact('ajax_call'));
     }
@@ -62,25 +66,24 @@ class ApplicationController extends Controller
     public function create()
     {
 
-        if( Auth::user()->role != 'user' ){
-            $applicants = User::all()->where('role','user');
-        }
-        else $applicants = [];
+        if (Auth::user()->role != 'user') {
+            $applicants = User::all()->where('role', 'user');
+        } else $applicants = [];
 
         $districts = District::all();
 
-        return view('application.create',compact(['applicants','districts']));
+        return view('application.create', compact(['applicants', 'districts']));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        if(Auth::user()->role == 'user'){
+        if (Auth::user()->role == 'user') {
             $request['user'] = Auth::user()->id;
         }
 
@@ -100,29 +103,29 @@ class ApplicationController extends Controller
             'date' => 'required',
             'bank_name' => 'required',
             'branch_name' => 'required',
-            'tin_no_attach' => ['required','mimes:jpeg,jpg,png,gif,pdf',$img_max_size],
-            'reg_no_attach' => ['required','mimes:jpeg,jpg,png,gif,pdf',$img_max_size],
-            'festival_place_attach' => ['required','mimes:jpeg,jpg,png,gif,pdf',$img_max_size],
-            'vat_reg_no_attach' => ['mimes:jpeg,jpg,png,gif,pdf',$img_max_size]
+            'tin_no_attach' => ['required', 'mimes:jpeg,jpg,png,gif,pdf', $img_max_size],
+            'reg_no_attach' => ['required', 'mimes:jpeg,jpg,png,gif,pdf', $img_max_size],
+            'festival_place_attach' => ['required', 'mimes:jpeg,jpg,png,gif,pdf', $img_max_size],
+            'vat_reg_no_attach' => ['mimes:jpeg,jpg,png,gif,pdf', $img_max_size]
 
 
         ]);
 
 
-        $from_date = str_before($request['from-to'],'-');
-        $to_date = str_after($request['from-to'],'-');
+        $from_date = str_before($request['from-to'], '-');
+        $to_date = str_after($request['from-to'], '-');
 
-        $from_date = date('Y-m-d',strtotime($from_date) );
+        $from_date = date('Y-m-d', strtotime($from_date));
 
-        $to_date = date('Y-m-d',strtotime($to_date) );
+        $to_date = date('Y-m-d', strtotime($to_date));
 
-        $valid['date'] = date('Y-m-d',strtotime($valid['date']) );
+        $valid['date'] = date('Y-m-d', strtotime($valid['date']));
 
         $valid['festival_place_attach'] = $request->file('festival_place_attach')->store('applications_files');
         $valid['reg_no_attach'] = $request->file('reg_no_attach')->store('applications_files');
         $valid['tin_no_attach'] = $request->file('tin_no_attach')->store('applications_files');
 
-        if($request->hasFile('vat_reg_no_attach') )
+        if ($request->hasFile('vat_reg_no_attach'))
             $valid['vat_reg_no_attach'] = $request->file('vat_reg_no_attach')->store('applications_files');
 
 //        Application::create($valid);
@@ -140,9 +143,9 @@ class ApplicationController extends Controller
         $application->reg_no_attach = $valid['reg_no_attach'];
         $application->tin_no = $valid['tin_no'];
         $application->tin_no_attach = $valid['tin_no_attach'];
-        if($request->has('vat_reg_no'))
+        if ($request->has('vat_reg_no'))
             $application->vat_reg_no = $request['vat_reg_no'];
-        if($request->hasFile('vat_reg_no_attach'))
+        if ($request->hasFile('vat_reg_no_attach'))
             $application->vat_reg_no_attach = $valid['vat_reg_no_attach'];
         $application->chaalan_no = $valid['chaalan_no'];
         $application->date = $valid['date'];
@@ -151,12 +154,11 @@ class ApplicationController extends Controller
         $application->status = 'Unapproved';
 
 
-
         $application->save();
 
 //        Confirmation mail to User
-        $mail_receiver = DB::table('users')->where('id',$application->user_id)->first();
-        Mail::to($mail_receiver->email)->send( new Confirmation() );
+        $mail_receiver = DB::table('users')->where('id', $application->user_id)->first();
+        Mail::to($mail_receiver->email)->send(new Confirmation());
 
         return redirect('/applications');
 
@@ -166,7 +168,7 @@ class ApplicationController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Application  $application
+     * @param \App\Application $application
      * @return \Illuminate\Http\Response
      */
     public function show(Application $application)
@@ -180,7 +182,7 @@ class ApplicationController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Application  $application
+     * @param \App\Application $application
      * @return \Illuminate\Http\Response
      */
     public function edit(Application $application)
@@ -191,27 +193,27 @@ class ApplicationController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Application  $application
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Application $application
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Application $application)
     {
 
-        if($request->has('process')){
+        if ($request->has('process')) {
             $application->status = 'Approved';
             $application->save();
 
-            $mail_receiver = DB::table('users')->where('id',$application->user_id)->first();
-            Mail::to($mail_receiver->email)->send( new ApprovalMail( $request['email_body'], $request['email_attach']) );
+            $mail_receiver = DB::table('users')->where('id', $application->user_id)->first();
+            Mail::to($mail_receiver->email)->send(new ApprovalMail($request['email_body'], $request['email_attach']));
         }
-        if($request->has('reject')){
+        if ($request->has('reject')) {
 
             $application->status = 'Rejected';
             $application->save();
 
-            $mail_receiver = DB::table('users')->where('id',$application->user_id)->first();
-            Mail::to($mail_receiver->email)->send( new RejectionlMail() );
+            $mail_receiver = DB::table('users')->where('id', $application->user_id)->first();
+            Mail::to($mail_receiver->email)->send(new RejectionlMail());
         }
 
         return redirect('/applications');
@@ -220,7 +222,7 @@ class ApplicationController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Application  $application
+     * @param \App\Application $application
      * @return \Illuminate\Http\Response
      */
     public function destroy(Application $application)
@@ -229,16 +231,75 @@ class ApplicationController extends Controller
     }
 
     /**
-     * Get a PDF Version of the Application Data
+     * Get a Zip Version of the Application Data
      *
-     * @param  \App\Application  $application
-     * @return void
+     * @param Application $application
+     * @param Fpdf $fpdf
+     * @return \Illuminate\Http\Response
      */
-    public function getPdf(Application $application, Fpdf $fpdf) {
+    public function getZip(Application $application, Fpdf $fpdf)
+    {
+        $zip_file = $application->id . '. ' . $application->festival_name . '.zip';
+
+        $zip = new \ZipArchive();
+
+        if ($zip->open($zip_file, \ZipArchive::CREATE | \ZipArchive::OVERWRITE)) {
+            $upload_dir = public_path() . '/uploads/';
+
+            $fpdf_output_file = $this->createPdfFile($application, $fpdf, $upload_dir);
+
+            $this->addAttachments($application, $zip, $upload_dir, $fpdf_output_file);
+
+            $zip->close();
+
+            unlink($fpdf_output_file);
+
+            return response()->download($zip_file)->deleteFileAfterSend(true);
+        }
+
+        return response()->noContent();
+    }
+
+    /**
+     * @param Application $application
+     * @param Fpdf $fpdf
+     * @param string $upload_dir
+     * @return string
+     */
+    public function createPdfFile(Application $application, Fpdf $fpdf, string $upload_dir): string
+    {
+        $fpdf_output_file = $upload_dir . $application->festival_name;
+
         $fpdf->AddPage();
         $fpdf->SetFont('Courier', 'B', 18);
         $fpdf->Cell(50, 25, $application->festival_name);
-        $fpdf->Output();
-        exit();
+        $fpdf->Output($fpdf_output_file, 'F');
+        return $fpdf_output_file;
+    }
+
+    /**
+     * @param Application $application
+     * @param \ZipArchive $zip
+     * @param string $upload_dir
+     * @param string $fpdf_output_file
+     * @return void
+     */
+    public function addAttachments(Application $application, \ZipArchive $zip, string $upload_dir, string $fpdf_output_file)
+    {
+        $tmp = explode('.', $application->festival_place_attach);
+        $zip->addFile($upload_dir . $application->festival_place_attach, 'স্থান বরাদ্দপত্র সংযুক্তি.' . end($tmp));
+
+        $tmp = explode('.', $application->reg_no_attach);
+        $zip->addFile($upload_dir . $application->reg_no_attach, 'রেজিস্ট্রেশন নম্বরের সংযুক্তি.' . end($tmp));
+
+        $tmp = explode('.', $application->tin_no_attach);
+        $zip->addFile($upload_dir . $application->tin_no_attach, 'টিন নম্বরের সংযুক্তি.' . end($tmp));
+
+        $zip->addFile($fpdf_output_file, $application->festival_name . '.pdf');
+
+        if ($application->vat_reg_no_attach) {
+            $tmp = explode('.', $application->vat_reg_no_attach);
+            $zip->addFile($upload_dir . $application->vat_reg_no_attach, 'ভ্যাট রেজিস্ট্রেশন নম্বরের সংযুক্তি.' . end($tmp));
+        }
     }
 }

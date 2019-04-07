@@ -19,7 +19,7 @@ Route::resource('applications', 'ApplicationController');
 Route::get('/applications/filter/approved', 'ApplicationController@approved');
 Route::get('/applications/filter/unapproved', 'ApplicationController@unapproved');
 Route::get('/applications/filter/rejected', 'ApplicationController@rejected');
-Route::get('/applications/get-pdf/{application}', 'ApplicationController@getPdf');
+Route::get('/applications/get-zip/{application}', 'ApplicationController@getZip');
 
 //DataTables Route
 //Users
