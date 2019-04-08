@@ -4,18 +4,14 @@
 
         var cb = function(start, end, label) {
             console.log(start.toISOString(), end.toISOString(), label);
-            $('#reportrange_right'). val(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+            $('#reportrange_right').val(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
             //alert("Callback has fired: [" + start.format('MMMM D, YYYY') + " to " + end.format('MMMM D, YYYY') + ", label = " + label + "]");
         }
 
         var optionSet1 = {
-            startDate: moment().subtract(29, 'days'),
-            endDate: moment(),
-            minDate: '01/01/2019',
-            maxDate: '10/31/2025',
-            dateLimit: {
-                days: 60
-            },
+            startDate: moment(),
+            endDate: moment().add(10, 'days'),
+            minDate: moment(),
             showDropdowns: true,
             showWeekNumbers: true,
             timePicker: false,
@@ -23,11 +19,9 @@
             timePicker12Hour: true,
             ranges: {
                 'Today': [moment(), moment()],
-                'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-                'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                'This Month': [moment().startOf('month'), moment().endOf('month')],
-                'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                'Tomorrow': [moment().add(1, 'days'), moment().add(1, 'days')],
+                'Next 7 Days': [moment().add(1, 'days'), moment().add(7, 'days')],
+                'Next Month': [moment().add(1, 'month').startOf('month'), moment().add(1, 'month').endOf('month')]
             },
             opens: 'right',
             buttonClasses: ['btn btn-default'],
@@ -89,6 +83,7 @@
         });
         $('#single_cal2').daterangepicker({
             singleDatePicker: true,
+            maxDate: moment(),
             // format('MMMM D, YYYY')
             format: 'MMMM D, YYYY',
             calender_style: "picker_2"
