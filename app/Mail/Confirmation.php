@@ -29,6 +29,6 @@ class Confirmation extends Mailable
      */
     public function build()
     {
-        return $this->from('festival19.bd@gmail.com')->view('mail.confirmation')->subject('Application for fair is received');
+        return $this->from('admin@mincombd.org')->view('mail.confirmation')->subject('Application for fair is received');
     }
 }

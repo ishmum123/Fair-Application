@@ -28,6 +28,6 @@ class RejectionlMail extends Mailable
      */
     public function build()
     {
-        return $this->from('festival19.bd@gmail.com')->view('mail.rejection')->subject('Application for fair is rejected');
+        return $this->from('admin@mincombd.org')->view('mail.rejection')->subject('Application for fair is rejected');
     }
 }

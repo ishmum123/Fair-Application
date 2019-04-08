@@ -34,7 +34,7 @@ class ApprovalMail extends Mailable
     public function build()
     {
         if($this->custome_email_attach != null){
-            return $this->from('festival19.bd@gmail.com')->view('mail.approval')
+            return $this->from('admin@mincombd.org')->view('mail.approval')
                 ->subject('Application for fair is Approved')
                 ->attach($this->custome_email_attach)
                 ->with([
@@ -42,7 +42,7 @@ class ApprovalMail extends Mailable
                 ]);
         }
         else{
-            return $this->from('festival19.bd@gmail.com')->view('mail.approval')
+            return $this->from('admin@mincombd.org')->view('mail.approval')
                 ->subject('Application for fair is Approved')
                 ->with([
                     'custom_email_body' => $this->custom_email_body,
