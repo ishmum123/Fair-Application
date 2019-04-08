@@ -239,6 +239,10 @@ class ApplicationController extends Controller
      */
     public function getZip(Application $application, Fpdf $fpdf)
     {
+        $current_user = Auth::user();
+        abort_if($current_user->role == 'admin' && $application->district_id != $current_user->district_id, 403);
+        abort_if($current_user->role == 'user' && $application->user_id != $current_user->id, 403);
+        
         $zip_file = $application->id . '. ' . $application->festival_name . '.zip';
 
         $zip = new \ZipArchive();
