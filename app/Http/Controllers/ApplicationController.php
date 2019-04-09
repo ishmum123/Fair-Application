@@ -243,12 +243,13 @@ class ApplicationController extends Controller
         abort_if($current_user->role == 'admin' && $application->district_id != $current_user->district_id, 403);
         abort_if($current_user->role == 'user' && $application->user_id != $current_user->id, 403);
         
-        $zip_file = $application->id . '. ' . $application->festival_name . '.zip';
+        $upload_dir = public_path() . '/uploads/';
+
+        $zip_file = $upload_dir . $application->id . '. ' . $application->festival_name . '.zip';
 
         $zip = new \ZipArchive();
 
         if ($zip->open($zip_file, \ZipArchive::CREATE | \ZipArchive::OVERWRITE)) {
-            $upload_dir = public_path() . '/uploads/';
 
             $fpdf_output_file = $this->createPdfFile($application, $fpdf, $upload_dir);
 
