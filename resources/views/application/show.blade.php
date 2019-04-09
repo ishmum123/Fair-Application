@@ -385,11 +385,11 @@
                 @csrf
                 @method('patch')
                 <div class="row">
-                    <button class="btn btn-success col-md-6" type="button" data-toggle="modal" data-target=".bs-confirmation-mail-modal-lg">
+                    <button class="btn btn-success col-md-5 col-md-offset-1" type="button" data-toggle="modal" data-target=".bs-confirmation-mail-modal-lg">
                         Process
                     </button>
 
-                    <button type="button" name="reject" class="btn btn-danger col-md-6">Reject</button>
+                    <button type="button" name="reject" class="btn btn-danger col-md-5">Reject</button>
                 </div>
             </form>
 
