@@ -8,11 +8,11 @@ use App\Mail\RejectionlMail;
 use App\Models\Application;
 use App\Models\District;
 use App\Models\User;
-use Codedge\Fpdf\Fpdf\Fpdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use PDF;
 
 
 class ApplicationController extends Controller
@@ -237,7 +237,7 @@ class ApplicationController extends Controller
      * @param Fpdf $fpdf
      * @return \Illuminate\Http\Response
      */
-    public function getZip(Application $application, Fpdf $fpdf)
+    public function getZip(Application $application)
     {
         $current_user = Auth::user();
         abort_if($current_user->role == 'admin' && $application->district_id != $current_user->district_id, 403);
@@ -251,7 +251,9 @@ class ApplicationController extends Controller
 
         if ($zip->open($zip_file, \ZipArchive::CREATE | \ZipArchive::OVERWRITE)) {
 
-            $fpdf_output_file = $this->createPdfFile($application, $fpdf, $upload_dir);
+            $fpdf_output_file = $upload_dir . $application->festival_name;
+            
+            PDF::loadView('pdf.document', $application)->save($fpdf_output_file);
 
             $this->addAttachments($application, $zip, $upload_dir, $fpdf_output_file);
 
@@ -263,23 +265,6 @@ class ApplicationController extends Controller
         }
 
         return response()->noContent();
-    }
-
-    /**
-     * @param Application $application
-     * @param Fpdf $fpdf
-     * @param string $upload_dir
-     * @return string
-     */
-    public function createPdfFile(Application $application, Fpdf $fpdf, string $upload_dir): string
-    {
-        $fpdf_output_file = $upload_dir . $application->festival_name;
-
-        $fpdf->AddPage();
-        $fpdf->SetFont('Courier', 'B', 18);
-        $fpdf->Cell(50, 25, $application->festival_name);
-        $fpdf->Output($fpdf_output_file, 'F');
-        return $fpdf_output_file;
     }
 
     /**
