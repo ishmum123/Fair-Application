@@ -13,7 +13,7 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         //Super admin seeding
-        DB::table('users')->insert([
+        App\Models\User::create([
             'name' => 'Super Admin',
             'email' => 'super@gmail.com',
             'organization_name' => 'SPEC',

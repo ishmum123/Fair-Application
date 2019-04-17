@@ -245,7 +245,11 @@ class ApplicationController extends Controller
         
         $upload_dir = public_path() . '/uploads/';
 
-        $zip_file = $upload_dir . $application->id . '. ' . $application->festival_name . '.zip';
+        $zip_file = $upload_dir 
+            . DB::table('districts')->where('id',$application->district_id)->first()->name 
+            . ' - '
+            .$application->festival_name 
+            . '.zip';
 
         $zip = new \ZipArchive();
 

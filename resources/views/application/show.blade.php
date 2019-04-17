@@ -30,7 +30,7 @@
                 <div class="col-md-4" style="text-align: right;"><label for="name">জেলা</label></div>
                 <div class="col-md-1">--</div>
                 @php
-                $district = \Illuminate\Support\Facades\DB::table('districts')->where('id',$application->district_id)->get();
+                $district = DB::table('districts')->where('id',$application->district_id)->get();
                 @endphp
                 <div class="col-md-7">
                     <p for="name">{{ $district[0]->name }}</p>

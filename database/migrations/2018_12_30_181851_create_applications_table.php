@@ -14,9 +14,9 @@ class CreateApplicationsTable extends Migration
     public function up()
     {
         Schema::create('applications', function (Blueprint $table) {
-            $table->increments('id');
+            $table->uuid('id')->primary();
             $table->unsignedInteger('district_id');
-            $table->unsignedInteger('user_id');
+            $table->uuid('user_id');
             $table->string('festival_name');
             $table->string('festival_type');
             $table->date('from');
