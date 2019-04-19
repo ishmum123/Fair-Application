@@ -72,25 +72,9 @@
     <div style="height: 113px;"></div>
     <div class="slide-one-item home-slider owl-carousel">
 
-        <div class="site-blocks-cover" style="background-image: url(welcome/images/hero_b1_1.jpg);" data-aos="fade" data-stellar-background-ratio="0.5">
-            <div class="container">
-                <div class="row align-items-center justify-content-center">
-                    <div class="col-md-7 text-center" data-aos="fade">
-                        <h1>For The Time <strong>Is At Hand</strong></h1>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div class="site-blocks-cover" style="background-image: url(welcome/images/DITF/Closing-25.JPG);" data-aos="fade" data-stellar-background-ratio="0.5"></div>
 
-        <div class="site-blocks-cover" style="background-image: url(welcome/images/wel1.jpg);" data-aos="fade" data-stellar-background-ratio="0.5">
-            <div class="container">
-                <div class="row align-items-center justify-content-center">
-                    <div class="col-md-7 text-center" data-aos="fade">
-                        <h1>The <strong>Truth</strong> Will Set You Free</h1>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div class="site-blocks-cover" style="background-image: url(welcome/images/DITF/Opening-64.JPG);" data-aos="fade" data-stellar-background-ratio="0.5"></div>
 
         @php
             $welcomes = \Illuminate\Support\Facades\DB::table('welcomes')->where('active', 1)->get();
