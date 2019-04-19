@@ -73,8 +73,15 @@ class UserController extends Controller
             'applicant_address' => 'required',
             'applicant_telephone' => 'required_without:applicant_mobile',
             'applicant_mobile' => 'required_without:applicant_telephone',
-            'password' => 'required|string|min:6|confirmed',
-
+            'password' => [
+                'required',
+                'string',
+                'min:6',
+                'confirmed',
+                'regex:/[a-z]/',      // must contain at least one lowercase letter
+                'regex:/[A-Z]/',      // must contain at least one uppercase letter
+                'regex:/[0-9]/',      // must contain at least one digit
+            ],
         ]);
 
 

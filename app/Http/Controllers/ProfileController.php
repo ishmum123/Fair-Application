@@ -25,7 +25,15 @@ class ProfileController extends Controller
     public function update_my_pass(Request $request)
     {
         $valid = request()->validate([
-            'password' => ['required', 'string', 'min:6', 'confirmed']
+            'password' => [
+                'required',
+                'string',
+                'min:6',
+                'confirmed',
+                'regex:/[a-z]/',      // must contain at least one lowercase letter
+                'regex:/[A-Z]/',      // must contain at least one uppercase letter
+                'regex:/[0-9]/',      // must contain at least one digit
+            ],
         ]);
         auth()->user()->password = bcrypt($valid['password']);
         auth()->user()->save();

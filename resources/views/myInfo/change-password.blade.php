@@ -25,7 +25,11 @@
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <input id="middle-name2" class="form-control col-md-7 col-xs-12" type="password" name="password" data-parsley-id="8197" required value="{{ old('password') }}"><ul class="parsley-errors-list" id="parsley-id-8197"></ul>
                 @if($errors->has('password'))
-                    <small style="color: red;">{{ $errors->first('password') }}</small>
+                    @if(strpos($errors->first('password'), 'format'))
+                        <small style="color: red;">Password must contain an Upper Case, a Lower Case and a number</small>
+                    @else
+                        <small style="color: red;">{{ $errors->first('password') }}</small>
+                    @endif
                 @endif
             </div>
 
