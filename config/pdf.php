@@ -19,15 +19,7 @@ return [
 	'watermark_font'       => 'sans-serif',
 	'display_mode'         => 'fullpage',
 	'watermark_text_alpha' => 0.1,
-	'custom_font_dir'      => base_path('resources/fonts/'),
-	'custom_font_data' 	   => [
-        'bangla' => [
-            'R'  => 'SolaimanLipi.ttf',    // regular font
-            'B'  => 'SolaimanLipi.ttf',       // optional: bold font
-            'I'  => 'SolaimanLipi.ttf',     // optional: italic font
-            'BI' => 'SolaimanLipi.ttf', // optional: bold-italic font
-            'useOTL' => 0xFF,   
-            'useKashida' => 75, 
-        ]
-    ],
+	'custom_font_dir'      => '',
+	'custom_font_data' 	   => [],
+	'auto_language_detection'  => true
 ];
